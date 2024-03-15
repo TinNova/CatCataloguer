@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -48,6 +50,15 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+
+        buildConfigField(
+            "String",
+            "THE_CAT_API_API_KEY",
+            "\"${properties.getProperty("THE_CAT_API_API_KEY")}\""
+        )
     }
 
     buildTypes {
@@ -105,6 +116,9 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:$composeVersion")
 //    implementation("androidx.compose.compiler:compiler:1.5.9")
 
+    // Paging
+    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
+    implementation("androidx.paging:paging-compose:3.2.1")
 
     //Jetpack Compose Material Design Components
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
