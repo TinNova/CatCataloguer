@@ -6,8 +6,6 @@ import com.tinnovakovic.catcataloguer.data.models.local.CatBreed
 import com.tinnovakovic.catcataloguer.data.models.local.CatBreedDetail
 import javax.inject.Inject
 
-class CatMappers @Inject constructor() {
-
     fun CatBreedDto.toCatEntity(): CatEntity {
         return CatEntity(
             id = id,
@@ -37,7 +35,7 @@ class CatMappers @Inject constructor() {
             suppressedTail = suppressedTail,
             shortLegs = shortLegs,
             hypoallergenic = hypoallergenic,
-            images = emptyList(),
+//            images = emptyList(),
         )
     }
 
@@ -78,8 +76,6 @@ class CatMappers @Inject constructor() {
             suppressedTail = suppressedTail,
             shortLegs = shortLegs,
             hypoallergenic = hypoallergenic,
-            images = images,
+//            images = images,
         )
     }
-
-}

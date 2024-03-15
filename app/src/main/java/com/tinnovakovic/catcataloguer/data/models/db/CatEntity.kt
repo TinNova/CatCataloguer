@@ -1,7 +1,9 @@
 package com.tinnovakovic.catcataloguer.data.models.db
 
+import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+@Entity(tableName = "cat_table")
 data class CatEntity(
     @PrimaryKey
     val id: String,
@@ -31,5 +33,5 @@ data class CatEntity(
     val suppressedTail: Int,
     val shortLegs: Int,
     val hypoallergenic: Int,
-    val images: List<String>
+//    val images: List<String>
 )

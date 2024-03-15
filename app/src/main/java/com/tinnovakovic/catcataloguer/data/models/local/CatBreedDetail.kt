@@ -41,5 +41,5 @@ data class CatBreedDetail(
     @SerializedName("short_legs")
     val shortLegs: Int,
     val hypoallergenic: Int,
-    val images: List<String>
+//    val images: List<String>
 )

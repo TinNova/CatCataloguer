@@ -94,6 +94,8 @@ dependencies {
 
     implementation("androidx.room:room-runtime:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-paging:2.5.1")
+
 
     // To use Kotlin annotation processing tool (kapt)
     kapt("androidx.room:room-compiler:$roomVersion")
@@ -117,8 +119,8 @@ dependencies {
 //    implementation("androidx.compose.compiler:compiler:1.5.9")
 
     // Paging
-    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
-    implementation("androidx.paging:paging-compose:3.2.1")
+    implementation("androidx.paging:paging-runtime-ktx:3.1.1")
+    implementation("androidx.paging:paging-compose:1.0.0-alpha18")
 
     //Jetpack Compose Material Design Components
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
