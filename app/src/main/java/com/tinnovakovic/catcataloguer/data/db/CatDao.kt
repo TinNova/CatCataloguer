@@ -5,8 +5,10 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RawQuery
 import androidx.room.Transaction
 import androidx.room.Upsert
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.tinnovakovic.catcataloguer.data.models.db.CatEntity
 import com.tinnovakovic.catcataloguer.data.models.db.CatImageEntity
 import com.tinnovakovic.catcataloguer.data.models.db.CatWithImages
@@ -21,8 +23,8 @@ interface CatDao {
     @Upsert
     suspend fun upsertAll(catEntities: List<CatEntity>)
 
-    @Query("SELECT * FROM cat_table")
-    fun catPagingSource(): PagingSource<Int, CatEntity>
+    @RawQuery(observedEntities = [CatEntity::class])
+    fun catPagingSource(query: SupportSQLiteQuery): PagingSource<Int, CatEntity>
 
     @Transaction
     @Query("SELECT * FROM cat_table WHERE id = :catId")

@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.tinnovakovic.catcataloguer.data.PagerRepo
+import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder
 import com.tinnovakovic.catcataloguer.data.models.local.Cat
 import com.tinnovakovic.catcataloguer.shared.NavDirection
 import com.tinnovakovic.catcataloguer.shared.NavManager
@@ -21,26 +22,40 @@ class HomeViewModel @Inject constructor(
     override val _uiState: MutableStateFlow<HomeContract.UiState> =
         MutableStateFlow(initialUiState())
 
-    init {
-        val catPagingFlow: Flow<PagingData<Cat>> =
-            pagerRepo.observeCatPager().cachedIn(viewModelScope)
-
-        updateUiState { it.copy(cats = catPagingFlow) }
-
+    private fun initialise() {
+        observeCatPager(BreedSortOrder.Name)
     }
-
 
     override fun onUiEvent(event: HomeContract.UiEvents) {
         when (event) {
+            HomeContract.UiEvents.Initialise -> initialise()
+
             is HomeContract.UiEvents.CatBreedClicked -> {
                 navManager.navigate(direction = NavDirection.catBreedDetailScreen(event.catBreedId))
             }
+
+            is HomeContract.UiEvents.FilterOptionClicked -> observeCatPager(event.sortOrder)
         }
+    }
+
+    private fun observeCatPager(sortOrder: BreedSortOrder) {
+        val catPagingFlow: Flow<PagingData<Cat>> =
+            pagerRepo
+                .observeCatPager(sortOrder = sortOrder)
+                .cachedIn(viewModelScope)
+
+        val sortOrderForFilter = when (sortOrder) {
+            is BreedSortOrder.Origin -> BreedSortOrder.Name
+            is BreedSortOrder.Name -> BreedSortOrder.Origin
+        }
+
+        updateUiState { it.copy(cats = catPagingFlow, sortOrder = sortOrderForFilter) }
     }
 
     companion object {
         fun initialUiState() = HomeContract.UiState(
-            cats = null
+            cats = null,
+            sortOrder = BreedSortOrder.Origin
         )
     }
 }

@@ -1,6 +1,7 @@
 package com.tinnovakovic.catcataloguer.presentation.home
 
 import androidx.paging.PagingData
+import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder
 import com.tinnovakovic.catcataloguer.data.models.local.Cat
 import com.tinnovakovic.catcataloguer.shared.mvi.BaseUiEvent
 import com.tinnovakovic.catcataloguer.shared.mvi.BaseUiState
@@ -14,10 +15,13 @@ interface HomeContract {
 
     @Immutable
     data class UiState(
-        val cats: Flow<PagingData<Cat>>?
+        val cats: Flow<PagingData<Cat>>?,
+        val sortOrder: BreedSortOrder
     ) : BaseUiState {}
 
     sealed class UiEvents : BaseUiEvent {
+        data object Initialise : UiEvents()
         data class CatBreedClicked(val catBreedId: String) : UiEvents()
+        data class FilterOptionClicked(val sortOrder: BreedSortOrder) : UiEvents()
     }
 }

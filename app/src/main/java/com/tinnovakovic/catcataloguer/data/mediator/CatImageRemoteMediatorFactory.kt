@@ -1,6 +1,5 @@
 package com.tinnovakovic.catcataloguer.data.mediator
 
-import com.tinnovakovic.catcataloguer.data.CatImageRemoteMediator
 import com.tinnovakovic.catcataloguer.data.TheCatApi
 import com.tinnovakovic.catcataloguer.data.db.CatDatabase
 import javax.inject.Inject

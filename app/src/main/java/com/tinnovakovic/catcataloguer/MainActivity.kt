@@ -33,9 +33,6 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 Scaffold { innerPadding ->
-                    navManager.commands.collectAsState().value.also { command ->
-                        if (command.destinationRoute.isNotEmpty()) navController.navigate(command.destinationRoute)
-                    }
                     NavHost(
                         navController = navController,
                         startDestination = Destination.Home.name,
@@ -44,7 +41,9 @@ class MainActivity : ComponentActivity() {
                         homeScreen()
                         detailScreen()
                     }
-
+                    navManager.commands.collectAsState().value.also { command ->
+                        if (command.destinationRoute.isNotEmpty()) navController.navigate(command.destinationRoute)
+                    }
                 }
             }
         }
@@ -68,7 +67,7 @@ fun GreetingPreview() {
 }
 
 //TODO:
-// - Consider System Process Death Recovery
+// - Consider System Process Death Recovery & Retain state of the filter option the user selected when returning to homeScreen!!
 // - Consider DarkMode/LightMode
 // - Use the libs.versions.toml file to manage dependencies
 // - Add API to Header to avoid code duplication
@@ -80,3 +79,5 @@ fun GreetingPreview() {
 // - Can CatMappers be improved? They are extension function except for one of them...
 // - What happens if any of the DTO values are null? App Crash...Can Result object prevent that? To test this remove the @Serialized param from country_code and it'll crash due to null object or pass an object via Retrofit with a null value
 // - Consider Accessibility and what app looks like with enlarged fonts and zoom
+// - Remove all hardcoded numbers and strings
+// - Double check if companion object need to be private or if their const vals need to be private
