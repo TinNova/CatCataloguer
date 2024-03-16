@@ -1,13 +1,13 @@
-package com.tinnovakovic.catcataloguer.presentation
+package com.tinnovakovic.catcataloguer.presentation.detail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -16,37 +16,37 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
-import androidx.paging.compose.LazyPagingItems
+import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.tinnovakovic.catcataloguer.data.models.local.CatBreed
-import com.tinnovakovic.catcataloguer.presentation.HomeContract.UiEvents
-import com.tinnovakovic.catcataloguer.presentation.HomeContract.UiState
 import androidx.paging.compose.items
-
+import coil.compose.AsyncImage
+import com.tinnovakovic.catcataloguer.data.models.local.CatImage
+import com.tinnovakovic.catcataloguer.ui.theme.spacing
+import kotlinx.coroutines.flow.Flow
 
 @Composable
-fun HomeScreen() {
-    val viewModel = hiltViewModel<HomeViewModel>()
+fun DetailScreen() {
+    val viewModel = hiltViewModel<DetailViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    HomeScreenContent(
+    DetailScreenContent(
         uiState = uiState,
         uiAction = viewModel::onUiEvent,
     )
 }
 
 @Composable
-fun HomeScreenContent(
-    uiState: UiState,
-    uiAction: (UiEvents) -> Unit,
+fun DetailScreenContent(
+    uiState: DetailContract.UiState,
+    uiAction: (DetailContract.UiEvents) -> Unit,
 ) {
 
     Box(modifier = Modifier.fillMaxWidth()) {
-        uiState.cats?.let { catPagingFlow ->
-            val catLazyPagingItems: LazyPagingItems<CatBreed> = catPagingFlow.collectAsLazyPagingItems()
+        uiState.images?.let { imagePagingFlow: Flow<PagingData<CatImage>> ->
+            val catImageLazyPagingItems = imagePagingFlow.collectAsLazyPagingItems()
 
 
-            if (catLazyPagingItems.loadState.refresh is LoadState.Loading) {
+            if (catImageLazyPagingItems.loadState.refresh is LoadState.Loading) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center)
                 )
@@ -56,16 +56,17 @@ fun HomeScreenContent(
                     verticalArrangement = Arrangement.spacedBy(64.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    items(catLazyPagingItems) { cat ->
-                        if (cat != null) {
-                            CatItem(
-                                catBreed = cat,
-                                modifier = Modifier.fillMaxSize()
+                    items(catImageLazyPagingItems) { image ->
+                        if (image != null) {
+                            CatImage(
+                                image = image.url,
+                                modifier = Modifier
+                                    .fillMaxSize()
                             )
                         }
                     }
                     item {
-                        if (catLazyPagingItems.loadState.append is LoadState.Loading) {
+                        if (catImageLazyPagingItems.loadState.append is LoadState.Loading) {
                             CircularProgressIndicator()
                         }
                     }
@@ -76,17 +77,13 @@ fun HomeScreenContent(
 }
 
 @Composable
-fun CatItem(
-    catBreed: CatBreed,
+fun CatImage(
+    image: String,
     modifier: Modifier = Modifier
 ) {
-
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(text = catBreed.name)
-        Text(text = catBreed.origin)
-    }
-
+    AsyncImage(
+        modifier = Modifier.padding(vertical = MaterialTheme.spacing.small),
+        model = image,
+        contentDescription = ""
+    )
 }

@@ -20,15 +20,13 @@ object NavDirection {
 
     }
 
-    //TODO:
-    //method only required if passing a value to searchScreen
-    //refactor to val
-    fun searchScreen(
+    fun catBreedDetailScreen(
+        catBreedId: String? = null
     ) = object : NavCommand {
 
         override val arguments = emptyList<NamedNavArgument>()
 
-        override val destinationRoute = "${Destination.Search.name}"
+        override val destinationRoute = "${Destination.Detail.name}/$catBreedId"
     }
 
 }

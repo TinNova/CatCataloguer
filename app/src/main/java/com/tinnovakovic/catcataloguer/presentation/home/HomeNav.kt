@@ -1,4 +1,4 @@
-package com.tinnovakovic.catcataloguer.presentation
+package com.tinnovakovic.catcataloguer.presentation.home
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable

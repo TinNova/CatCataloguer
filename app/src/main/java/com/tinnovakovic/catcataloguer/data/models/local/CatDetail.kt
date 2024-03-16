@@ -2,7 +2,7 @@ package com.tinnovakovic.catcataloguer.data.models.local
 
 import com.google.gson.annotations.SerializedName
 
-data class CatBreedDetail(
+data class CatDetail(
     val id: String,
     val name: String,
     val temperament: String,
@@ -41,5 +41,4 @@ data class CatBreedDetail(
     @SerializedName("short_legs")
     val shortLegs: Int,
     val hypoallergenic: Int,
-//    val images: List<String>
 )

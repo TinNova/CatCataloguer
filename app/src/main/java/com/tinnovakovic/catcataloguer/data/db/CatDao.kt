@@ -5,16 +5,30 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Upsert
-import com.tinnovakovic.catcataloguer.data.models.api.CatBreedDto
 import com.tinnovakovic.catcataloguer.data.models.db.CatEntity
+import com.tinnovakovic.catcataloguer.data.models.db.CatImageEntity
+import com.tinnovakovic.catcataloguer.data.models.db.CatWithImages
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CatDao {
-    @Upsert
-    suspend fun upsertAll(cats: List<CatEntity>) // Can this be used to insert images later??
 
-    @Query("SELECT * FROM cat_table") //return decsending based on cat name
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertCatImages(catImageEntities: List<CatImageEntity>)
+
+    @Upsert
+    suspend fun upsertAll(catEntities: List<CatEntity>)
+
+    @Query("SELECT * FROM cat_table")
     fun catPagingSource(): PagingSource<Int, CatEntity>
 
+    @Transaction
+    @Query("SELECT * FROM cat_table WHERE id = :catId")
+    fun getCatWithImages(catId: String): Flow<CatWithImages>
+
+    @Transaction
+    @Query("SELECT * FROM cat_image_table WHERE catId = :catId")
+    fun getCatImagesPagingSourceByBreedId(catId: String): PagingSource<Int, CatImageEntity>
 }

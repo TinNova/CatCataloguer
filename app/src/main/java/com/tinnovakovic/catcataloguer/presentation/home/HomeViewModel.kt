@@ -1,10 +1,11 @@
-package com.tinnovakovic.catcataloguer.presentation
+package com.tinnovakovic.catcataloguer.presentation.home
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.tinnovakovic.catcataloguer.data.PagerRepo
-import com.tinnovakovic.catcataloguer.data.models.local.CatBreed
+import com.tinnovakovic.catcataloguer.data.models.local.Cat
+import com.tinnovakovic.catcataloguer.shared.NavDirection
 import com.tinnovakovic.catcataloguer.shared.NavManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +22,7 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow(initialUiState())
 
     init {
-        val catPagingFlow: Flow<PagingData<CatBreed>> =
+        val catPagingFlow: Flow<PagingData<Cat>> =
             pagerRepo.observeCatPager().cachedIn(viewModelScope)
 
         updateUiState { it.copy(cats = catPagingFlow) }
@@ -30,7 +31,11 @@ class HomeViewModel @Inject constructor(
 
 
     override fun onUiEvent(event: HomeContract.UiEvents) {
-        TODO("Not yet implemented")
+        when (event) {
+            is HomeContract.UiEvents.CatBreedClicked -> {
+                navManager.navigate(direction = NavDirection.catBreedDetailScreen(event.catBreedId))
+            }
+        }
     }
 
     companion object {

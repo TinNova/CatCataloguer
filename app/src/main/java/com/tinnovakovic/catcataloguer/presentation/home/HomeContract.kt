@@ -1,8 +1,7 @@
-package com.tinnovakovic.catcataloguer.presentation
+package com.tinnovakovic.catcataloguer.presentation.home
 
 import androidx.paging.PagingData
-import androidx.paging.compose.LazyPagingItems
-import com.tinnovakovic.catcataloguer.data.models.local.CatBreed
+import com.tinnovakovic.catcataloguer.data.models.local.Cat
 import com.tinnovakovic.catcataloguer.shared.mvi.BaseUiEvent
 import com.tinnovakovic.catcataloguer.shared.mvi.BaseUiState
 import com.tinnovakovic.catcataloguer.shared.mvi.BaseViewModel
@@ -15,11 +14,10 @@ interface HomeContract {
 
     @Immutable
     data class UiState(
-        val cats: Flow<PagingData<CatBreed>>?
+        val cats: Flow<PagingData<Cat>>?
     ) : BaseUiState {}
 
     sealed class UiEvents : BaseUiEvent {
-//        data object Initialise : UiEvents()
-//        data object ButtonClicked : UiEvents()
+        data class CatBreedClicked(val catBreedId: String) : UiEvents()
     }
 }

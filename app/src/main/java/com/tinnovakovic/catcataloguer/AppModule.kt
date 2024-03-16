@@ -8,6 +8,8 @@ import androidx.room.Room.databaseBuilder
 import com.tinnovakovic.catcataloguer.data.CatRemoteMediator
 import com.tinnovakovic.catcataloguer.data.TheCatApi
 import com.tinnovakovic.catcataloguer.data.db.CatDatabase
+import com.tinnovakovic.catcataloguer.data.mediator.CatImageRemoteMediatorFactory
+import com.tinnovakovic.catcataloguer.data.mediator.CatImageRemoteMediatorFactoryImpl
 import com.tinnovakovic.catcataloguer.data.models.db.CatEntity
 import com.tinnovakovic.catcataloguer.shared.CAT_DATABASE
 import com.tinnovakovic.catcataloguer.shared.PAGE_SIZE
@@ -47,4 +49,14 @@ object AppModule {
             }
         )
     }
+
+    @Singleton
+    @Provides
+    fun provideCatDetailRemoteMediatorFactory(
+        catDatabase: CatDatabase,
+        catApi: TheCatApi
+    ): CatImageRemoteMediatorFactory {
+        return CatImageRemoteMediatorFactoryImpl(catDatabase, catApi)
+    }
+
 }
