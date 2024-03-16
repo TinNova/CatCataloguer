@@ -81,3 +81,5 @@ fun GreetingPreview() {
 // - Consider Accessibility and what app looks like with enlarged fonts and zoom
 // - Remove all hardcoded numbers and strings
 // - Double check if companion object need to be private or if their const vals need to be private
+// - Fix the terrible transition from Home to Detail
+// - Make all Dto values nullable for defensive programming

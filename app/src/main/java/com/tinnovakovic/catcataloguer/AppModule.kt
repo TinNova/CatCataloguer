@@ -3,6 +3,7 @@ package com.tinnovakovic.catcataloguer
 import android.content.Context
 import androidx.room.Room.databaseBuilder
 import com.tinnovakovic.catcataloguer.data.TheCatApi
+import com.tinnovakovic.catcataloguer.data.db.CatDao
 import com.tinnovakovic.catcataloguer.data.db.CatDatabase
 import com.tinnovakovic.catcataloguer.data.mediator.CatImageRemoteMediatorFactory
 import com.tinnovakovic.catcataloguer.data.mediator.CatImageRemoteMediatorFactoryImpl
@@ -29,6 +30,12 @@ object AppModule {
             name = CAT_DATABASE
         )
             .build()
+
+    @Singleton
+    @Provides
+    fun provideCatDAO(catDatabase: CatDatabase): CatDao {
+        return catDatabase.catDao()
+    }
 
     @Singleton
     @Provides

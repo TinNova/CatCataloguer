@@ -5,9 +5,12 @@ import com.google.gson.annotations.SerializedName
 data class CatBreedDto(
     val id: String,
     val name: String,
+    @SerializedName("alt_names")
+    val altNames: String?,
     val temperament: String,
     val weight: WeightDto,
     val origin: String,
+    val lap: Int?,
     @SerializedName("country_code")
     val countryCode: String,
     val description: String,
@@ -38,7 +41,7 @@ data class CatBreedDto(
     val hairless: Int,
     val natural: Int,
     val rare: Int,
-    val rex: Int, //-> What is rex?
+    val rex: Int,
     @SerializedName("suppressed_tail")
     val suppressedTail: Int,
     @SerializedName("short_legs")

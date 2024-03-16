@@ -5,18 +5,21 @@ import com.tinnovakovic.catcataloguer.data.models.api.CatImageDto
 import com.tinnovakovic.catcataloguer.data.models.db.CatEntity
 import com.tinnovakovic.catcataloguer.data.models.db.CatImageEntity
 import com.tinnovakovic.catcataloguer.data.models.local.Cat
+import com.tinnovakovic.catcataloguer.data.models.local.CatDetail
 import com.tinnovakovic.catcataloguer.data.models.local.CatImage
 
 fun CatBreedDto.toCatEntity(): CatEntity {
     return CatEntity(
         id = id,
         name = name,
+        altNames = altNames ?: "",
         temperament = temperament,
         origin = origin,
         countryCode = countryCode,
         description = description,
         lifeSpan = lifeSpan,
         indoor = indoor,
+        lap = lap ?: 0,
         adaptability = adaptability,
         affectionLevel = affectionLevel,
         childFriendly = childFriendly,
@@ -37,6 +40,41 @@ fun CatBreedDto.toCatEntity(): CatEntity {
         suppressedTail = suppressedTail,
         shortLegs = shortLegs,
         hypoallergenic = hypoallergenic,
+    )
+}
+
+fun CatEntity.toCatDetail(): CatDetail {
+    return CatDetail(
+        id = id,
+        name = name,
+        altNames = altNames,
+        temperament = temperament.split(", ").toList(),
+        origin = origin,
+        countryCode = countryCode,
+        description = description,
+        lifeSpan = lifeSpan,
+        indoor = indoor == 1,
+        lap = lap == 1,
+        adaptability = adaptability,
+        affectionLevel = affectionLevel,
+        childFriendly = childFriendly,
+        dogFriendly = dogFriendly,
+        energyLevel = energyLevel,
+        grooming = grooming,
+        healthIssues = healthIssues,
+        intelligence = intelligence,
+        sheddingLevel = sheddingLevel,
+        socialNeeds = socialNeeds,
+        strangerFriendly = strangerFriendly,
+        vocalisation = vocalisation,
+        experimental = experimental == 1,
+        hairless = hairless == 1,
+        natural = natural == 1,
+        rare = rare == 1,
+        rex = rex == 1,
+        suppressedTail = suppressedTail == 1,
+        shortLegs = shortLegs == 1,
+        hypoallergenic = hypoallergenic == 1,
     )
 }
 

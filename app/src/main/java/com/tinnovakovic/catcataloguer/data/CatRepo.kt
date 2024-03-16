@@ -4,18 +4,19 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
 import androidx.paging.map
 import androidx.sqlite.db.SimpleSQLiteQuery
-import com.tinnovakovic.catcataloguer.data.db.CatDatabase
+import com.tinnovakovic.catcataloguer.data.db.CatDao
 import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder
 import com.tinnovakovic.catcataloguer.data.mediator.CatImageRemoteMediatorFactory
 import com.tinnovakovic.catcataloguer.data.mediator.CatRemoteMediatorFactory
 import com.tinnovakovic.catcataloguer.data.models.db.CatEntity
 import com.tinnovakovic.catcataloguer.data.models.db.CatImageEntity
 import com.tinnovakovic.catcataloguer.data.models.local.Cat
+import com.tinnovakovic.catcataloguer.data.models.local.CatDetail
 import com.tinnovakovic.catcataloguer.data.models.local.CatImage
 import com.tinnovakovic.catcataloguer.data.models.toCat
+import com.tinnovakovic.catcataloguer.data.models.toCatDetail
 import com.tinnovakovic.catcataloguer.data.models.toCatImage
 import com.tinnovakovic.catcataloguer.shared.IMAGE_PAGE_SIZE
 import com.tinnovakovic.catcataloguer.shared.PAGE_SIZE
@@ -24,11 +25,15 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class PagerRepo @Inject constructor(
+class CatRepo @Inject constructor(
     private val catImageMediatorFactory: CatImageRemoteMediatorFactory,
     private val catMediatorFactory: CatRemoteMediatorFactory,
-    private val catDatabase: CatDatabase
+    private val catDao: CatDao
 ) {
+
+    suspend fun getCatDetail(catId: String): CatDetail {
+        return catDao.getCatEntity(catId).toCatDetail()
+    }
 
     fun observeCatPager(sortOrder: BreedSortOrder): Flow<PagingData<Cat>> {
         return createCatPager(sortOrder)
@@ -56,7 +61,7 @@ class PagerRepo @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             remoteMediator = catMediatorFactory.create(sortOrder),
-            pagingSourceFactory = { catDatabase.catDao().catPagingSource(sqlLiteQuery) }
+            pagingSourceFactory = { catDao.catPagingSource(sqlLiteQuery) }
         )
     }
 
@@ -64,7 +69,7 @@ class PagerRepo @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = IMAGE_PAGE_SIZE),
             remoteMediator = catImageMediatorFactory.create(catId),
-            pagingSourceFactory = { catDatabase.catDao().getCatImagesPagingSourceByBreedId(catId) }
+            pagingSourceFactory = { catDao.getCatImagesPagingSourceByBreedId(catId) }
         )
     }
 

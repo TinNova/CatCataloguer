@@ -1,9 +1,10 @@
 package com.tinnovakovic.catcataloguer.presentation.home
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.tinnovakovic.catcataloguer.data.PagerRepo
+import com.tinnovakovic.catcataloguer.data.CatRepo
 import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder
 import com.tinnovakovic.catcataloguer.data.models.local.Cat
 import com.tinnovakovic.catcataloguer.shared.NavDirection
@@ -16,13 +17,17 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val navManager: NavManager,
-    private val pagerRepo: PagerRepo,
+    private val catRepo: CatRepo,
 ) : HomeContract.ViewModel() {
 
+    private var initialiseCalled = false
     override val _uiState: MutableStateFlow<HomeContract.UiState> =
         MutableStateFlow(initialUiState())
 
+    @MainThread
     private fun initialise() {
+        if (initialiseCalled) return
+        initialiseCalled = true
         observeCatPager(BreedSortOrder.Name)
     }
 
@@ -40,7 +45,7 @@ class HomeViewModel @Inject constructor(
 
     private fun observeCatPager(sortOrder: BreedSortOrder) {
         val catPagingFlow: Flow<PagingData<Cat>> =
-            pagerRepo
+            catRepo
                 .observeCatPager(sortOrder = sortOrder)
                 .cachedIn(viewModelScope)
 

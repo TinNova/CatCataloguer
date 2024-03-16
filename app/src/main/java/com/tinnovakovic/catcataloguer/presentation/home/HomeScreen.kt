@@ -84,8 +84,8 @@ fun HomeScreenContent(
                             DropdownMenuItem(
                                 text = { Text("Filter By: ${uiState.sortOrder}") },
                                 onClick = {
-                                    uiAction(UiEvents.FilterOptionClicked(uiState.sortOrder))
                                     showMenu = false
+                                    uiAction(UiEvents.FilterOptionClicked(uiState.sortOrder))
                                 }
                             )
                         }
@@ -128,7 +128,6 @@ fun HomeScreenContent(
                                             start = MaterialTheme.spacing.large,
                                             end = MaterialTheme.spacing.medium
                                         )
-
                                 )
                                 HorizontalDivider(modifier = Modifier.padding(start = MaterialTheme.spacing.large))
                             }

@@ -5,40 +5,32 @@ import com.google.gson.annotations.SerializedName
 data class CatDetail(
     val id: String,
     val name: String,
-    val temperament: String,
+    val altNames: String,
+    val temperament: List<String>,
     val origin: String,
+    val countryCode: String,
     val description: String,
-    @SerializedName("life_span")
     val lifeSpan: String,
-    val indoor: Int,
+    val indoor: Boolean,
+    val lap: Boolean,
     val adaptability: Int,
-    @SerializedName("affection_level")
     val affectionLevel: Int,
-    @SerializedName("child_friendly")
     val childFriendly: Int,
-    @SerializedName("dog_friendly")
     val dogFriendly: Int,
-    @SerializedName("energy_level")
     val energyLevel: Int,
     val grooming: Int,
-    @SerializedName("health_issues")
     val healthIssues: Int,
     val intelligence: Int,
-    @SerializedName("shedding_level")
     val sheddingLevel: Int,
-    @SerializedName("social_needs")
     val socialNeeds: Int,
-    @SerializedName("stranger_friendly")
     val strangerFriendly: Int,
     val vocalisation: Int,
-    val experimental: Int,
-    val hairless: Int,
-    val natural: Int,
-    val rare: Int,
-    val rex: Int, //-> What is rex?
-    @SerializedName("suppressed_tail")
-    val suppressedTail: Int,
-    @SerializedName("short_legs")
-    val shortLegs: Int,
-    val hypoallergenic: Int,
+    val experimental: Boolean,
+    val hairless: Boolean,
+    val natural: Boolean,
+    val rare: Boolean,
+    val rex: Boolean,
+    val suppressedTail: Boolean,
+    val shortLegs: Boolean,
+    val hypoallergenic: Boolean,
 )

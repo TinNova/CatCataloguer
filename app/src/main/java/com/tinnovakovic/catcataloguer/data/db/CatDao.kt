@@ -27,10 +27,9 @@ interface CatDao {
     fun catPagingSource(query: SupportSQLiteQuery): PagingSource<Int, CatEntity>
 
     @Transaction
-    @Query("SELECT * FROM cat_table WHERE id = :catId")
-    fun getCatWithImages(catId: String): Flow<CatWithImages>
-
-    @Transaction
     @Query("SELECT * FROM cat_image_table WHERE catId = :catId")
     fun getCatImagesPagingSourceByBreedId(catId: String): PagingSource<Int, CatImageEntity>
+
+    @Query("SELECT * FROM cat_table WHERE id = :catId")
+    suspend fun getCatEntity(catId: String): CatEntity
 }
