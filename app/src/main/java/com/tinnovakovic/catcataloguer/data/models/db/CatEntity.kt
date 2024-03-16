@@ -14,6 +14,7 @@ data class CatEntity(
     val name: String,
     val temperament: String,
     val origin: String,
+    val countryCode: String,
     val description: String,
     val lifeSpan: String,
     val indoor: Int,

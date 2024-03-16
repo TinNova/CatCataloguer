@@ -69,6 +69,7 @@ fun GreetingPreview() {
 
 //TODO:
 // - Consider System Process Death Recovery
+// - Consider DarkMode/LightMode
 // - Use the libs.versions.toml file to manage dependencies
 // - Add API to Header to avoid code duplication
 // - Is LazyColumn Recomposing a lot? Could a key prevent that?
@@ -76,3 +77,6 @@ fun GreetingPreview() {
 // - Is there a need to wrap network objects in a Result object?
 // - The images appear to jump in order, I think it's because some load faster than others giving that illusion
 //   to fix this a placeholder needs to be implemented
+// - Can CatMappers be improved? They are extension function except for one of them...
+// - What happens if any of the DTO values are null? App Crash...Can Result object prevent that? To test this remove the @Serialized param from country_code and it'll crash due to null object or pass an object via Retrofit with a null value
+// - Consider Accessibility and what app looks like with enlarged fonts and zoom

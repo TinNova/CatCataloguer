@@ -4,9 +4,7 @@ import com.tinnovakovic.catcataloguer.data.models.api.CatBreedDto
 import com.tinnovakovic.catcataloguer.data.models.api.CatImageDto
 import com.tinnovakovic.catcataloguer.data.models.db.CatEntity
 import com.tinnovakovic.catcataloguer.data.models.db.CatImageEntity
-import com.tinnovakovic.catcataloguer.data.models.db.CatWithImages
 import com.tinnovakovic.catcataloguer.data.models.local.Cat
-import com.tinnovakovic.catcataloguer.data.models.local.CatDetail
 import com.tinnovakovic.catcataloguer.data.models.local.CatImage
 
 fun CatBreedDto.toCatEntity(): CatEntity {
@@ -15,6 +13,7 @@ fun CatBreedDto.toCatEntity(): CatEntity {
         name = name,
         temperament = temperament,
         origin = origin,
+        countryCode = countryCode,
         description = description,
         lifeSpan = lifeSpan,
         indoor = indoor,
@@ -46,6 +45,7 @@ fun CatEntity.toCat(): Cat {
         id = id,
         name = name,
         origin = origin,
+        countryEmoji = getFlagEmoji(countryCode)
     )
 }
 
@@ -62,4 +62,20 @@ fun CatImageEntity.toCatImage(): CatImage {
         id = imageId,
         url = url
     )
+}
+
+fun getFlagEmoji(countryCode: String): String {
+    // Validate the country code (2 uppercase letters)
+    if (countryCode.length != 2 || !countryCode.all { it.isUpperCase() && it in 'A'..'Z' }) {
+        return countryCode
+    }
+
+    // Convert the country code directly to a flag emoji
+    return countryCode
+        .map { char ->
+            // Calculate the Unicode point for each regional indicator symbol directly
+            val offset = char - 'A' + 0x1F1E6
+            String(Character.toChars(offset))
+        }
+        .joinToString(separator = "")
 }

@@ -4,4 +4,5 @@ data class Cat(
     val id: String,
     val name: String,
     val origin: String,
+    val countryEmoji: String
 )

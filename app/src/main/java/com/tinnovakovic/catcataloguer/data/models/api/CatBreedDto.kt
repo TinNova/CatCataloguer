@@ -8,6 +8,8 @@ data class CatBreedDto(
     val temperament: String,
     val weight: WeightDto,
     val origin: String,
+    @SerializedName("country_code")
+    val countryCode: String,
     val description: String,
     @SerializedName("life_span")
     val lifeSpan: String,
