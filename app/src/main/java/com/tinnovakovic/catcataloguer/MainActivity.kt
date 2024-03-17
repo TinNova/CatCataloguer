@@ -83,3 +83,4 @@ fun GreetingPreview() {
 // - Double check if companion object need to be private or if their const vals need to be private
 // - Fix the terrible transition from Home to Detail
 // - Make all Dto values nullable for defensive programming
+// - Make the theme look like the one in Material 3: https://m3.material.io/components/tabs/guidelines

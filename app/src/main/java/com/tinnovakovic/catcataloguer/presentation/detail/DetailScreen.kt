@@ -5,10 +5,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Chip
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -103,13 +107,48 @@ fun DetailScreenContent(
                     }
                 }
 
+                SubTitle(text = "Personality Traits")
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(minSize = 128.dp)
+                ) {
+                    items(uiState.catDetail.personalityScores) { personalityScore ->
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(text = personalityScore.personality)
+                            Chip(modifier = Modifier.padding(end = MaterialTheme.spacing.medium),
+                                onClick = {}) {
+                                Text(text = "${personalityScore.score}/5")
+                            }
+                        }
+                    }
+                }
+
+                SubTitle(text = "Features")
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(minSize = 128.dp)
+                ) {
+                    items(uiState.catDetail.features) { feature ->
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(text = feature.feature)
+                            Chip(modifier = Modifier.padding(end = MaterialTheme.spacing.medium),
+                                onClick = {}) {
+                                Text(text = feature.hasFeature.toString())
+                            }
+                        }
+                    }
+                }
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
                     uiState.images?.let { imagePagingFlow: Flow<PagingData<CatImage>> ->
                         val catImageLazyPagingItems = imagePagingFlow.collectAsLazyPagingItems()
-
 
                         if (catImageLazyPagingItems.loadState.refresh is LoadState.Loading) {
                             CircularProgressIndicator(

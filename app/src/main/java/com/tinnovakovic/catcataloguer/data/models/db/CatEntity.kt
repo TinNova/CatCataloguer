@@ -13,6 +13,8 @@ data class CatEntity(
     val id: String,
     val name: String,
     val altNames: String,
+    val weightMetric: String,
+    val weightImperial: String,
     val temperament: String,
     val origin: String,
     val countryCode: String,

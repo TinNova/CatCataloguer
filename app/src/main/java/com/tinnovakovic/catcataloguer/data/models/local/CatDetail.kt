@@ -1,36 +1,26 @@
 package com.tinnovakovic.catcataloguer.data.models.local
 
-import com.google.gson.annotations.SerializedName
-
 data class CatDetail(
     val id: String,
     val name: String,
     val altNames: String,
+    val weightMetric: String,
+    val weightImperial: String,
     val temperament: List<String>,
     val origin: String,
     val countryCode: String,
     val description: String,
     val lifeSpan: String,
-    val indoor: Boolean,
-    val lap: Boolean,
-    val adaptability: Int,
-    val affectionLevel: Int,
-    val childFriendly: Int,
-    val dogFriendly: Int,
-    val energyLevel: Int,
-    val grooming: Int,
-    val healthIssues: Int,
-    val intelligence: Int,
-    val sheddingLevel: Int,
-    val socialNeeds: Int,
-    val strangerFriendly: Int,
-    val vocalisation: Int,
-    val experimental: Boolean,
-    val hairless: Boolean,
-    val natural: Boolean,
-    val rare: Boolean,
-    val rex: Boolean,
-    val suppressedTail: Boolean,
-    val shortLegs: Boolean,
-    val hypoallergenic: Boolean,
+    val personalityScores: List<PersonalityScore>,
+    val features: List<Feature>,
+)
+
+data class PersonalityScore(
+    val personality: String,
+    val score: Int
+)
+
+data class Feature(
+    val feature: String,
+    val hasFeature: Boolean
 )
