@@ -1,12 +1,12 @@
 package com.tinnovakovic.catcataloguer.presentation.home
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,6 +42,7 @@ import com.tinnovakovic.catcataloguer.presentation.home.HomeContract.UiEvents
 import com.tinnovakovic.catcataloguer.presentation.home.HomeContract.UiState
 import androidx.paging.compose.items
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
+import java.io.IOException
 
 
 @Composable
@@ -97,46 +99,63 @@ fun HomeScreenContent(
         Box(
             modifier = Modifier
                 .padding(scaffoldPadding)
-                .fillMaxWidth()
+                .fillMaxSize()
         ) {
             uiState.cats?.let { catPagingFlow ->
                 val catLazyPagingItems: LazyPagingItems<Cat> =
                     catPagingFlow.collectAsLazyPagingItems()
 
+                when (catLazyPagingItems.loadState.refresh) {
+                    is LoadState.Loading -> {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
 
-                if (catLazyPagingItems.loadState.refresh is LoadState.Loading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
+                    is LoadState.Error -> ToastErrorMessage(
+                        (catLazyPagingItems.loadState.refresh as LoadState.Error).error
                     )
-                } else {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        items(
-                            catLazyPagingItems,
-                            key = { it.id }) { cat ->
-                            if (cat != null) {
-                                CatItem(
-                                    cat = cat,
-                                    modifier = Modifier
-                                        .clickable {
-                                            uiAction(UiEvents.CatBreedClicked(cat.id))
-                                        }
-                                        .fillMaxSize()
-                                        .padding(
-                                            top = MaterialTheme.spacing.medium,
-                                            bottom = MaterialTheme.spacing.medium,
-                                            start = MaterialTheme.spacing.large,
-                                            end = MaterialTheme.spacing.medium
-                                        )
-                                )
-                                HorizontalDivider(modifier = Modifier.padding(start = MaterialTheme.spacing.large))
+
+                    else -> {
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            items(
+                                catLazyPagingItems,
+                                key = { it.id }) { cat ->
+                                if (cat != null) {
+                                    CatItem(
+                                        cat = cat,
+                                        modifier = Modifier
+                                            .clickable {
+                                                uiAction(UiEvents.CatBreedClicked(cat.id))
+                                            }
+                                            .fillMaxSize()
+                                            .padding(
+                                                top = MaterialTheme.spacing.medium,
+                                                bottom = MaterialTheme.spacing.medium,
+                                                start = MaterialTheme.spacing.large,
+                                                end = MaterialTheme.spacing.medium
+                                            )
+                                    )
+                                    HorizontalDivider(modifier = Modifier.padding(start = MaterialTheme.spacing.large))
+                                }
                             }
-                        }
-                        item {
-                            if (catLazyPagingItems.loadState.append is LoadState.Loading) {
-                                CircularProgressIndicator()
+                            item {
+                                when (catLazyPagingItems.loadState.append) {
+                                    is LoadState.Loading -> {
+                                        CircularProgressIndicator(
+                                            modifier = Modifier.align(Alignment.Center)
+                                        )
+                                    }
+
+                                    is LoadState.Error -> ToastErrorMessage(
+                                        (catLazyPagingItems.loadState.append as LoadState.Error).error
+                                    )
+
+                                    is LoadState.NotLoading -> { /* no-op */ }
+                                }
                             }
                         }
                     }
@@ -144,6 +163,19 @@ fun HomeScreenContent(
             }
         }
     }
+}
+
+@Composable
+fun ToastErrorMessage(error: Throwable) {
+    val errorMessage = when (error) {
+        is IOException -> "No Network Connection"
+        else -> "Error Loading Information"
+    }
+    Toast.makeText(
+        LocalContext.current,
+        errorMessage,
+        Toast.LENGTH_LONG
+    ).show()
 }
 
 @Composable
