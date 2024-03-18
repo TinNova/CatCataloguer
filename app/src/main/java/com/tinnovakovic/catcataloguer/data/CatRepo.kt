@@ -74,8 +74,8 @@ class CatRepo @Inject constructor(
     }
 
     companion object {
-        const val SQL_CAT_TABLE_NAME_QUERY = "SELECT * FROM cat_table ORDER BY name ASC"
-        const val SQL_CAT_TABLE_ORIGIN_QUERY = "SELECT * FROM cat_table ORDER BY origin ASC"
+       private const val SQL_CAT_TABLE_NAME_QUERY = "SELECT * FROM cat_table ORDER BY name ASC"
+       private const val SQL_CAT_TABLE_ORIGIN_QUERY = "SELECT * FROM cat_table ORDER BY origin ASC"
 
     }
 }
