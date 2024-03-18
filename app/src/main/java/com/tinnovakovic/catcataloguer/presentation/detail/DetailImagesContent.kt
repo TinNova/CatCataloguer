@@ -5,14 +5,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.paging.LoadState
@@ -32,7 +33,7 @@ fun DetailImagesContent(images: Flow<PagingData<CatImage>>?) {
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = MaterialTheme.spacing.medium)
-        ) {
+    ) {
         images?.let { imagePagingFlow: Flow<PagingData<CatImage>> ->
             val catImageLazyPagingItems = imagePagingFlow.collectAsLazyPagingItems()
 
@@ -47,10 +48,13 @@ fun DetailImagesContent(images: Flow<PagingData<CatImage>>?) {
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     item {}
-                    items(catImageLazyPagingItems) { image ->
+                    items(
+                        catImageLazyPagingItems,
+                        key = { it.id }
+                    ) { image ->
                         if (image != null) {
                             CatImage(
-                                image = image.url
+                                image = image.url,
                             )
                         }
                     }
@@ -70,17 +74,22 @@ fun CatImage(
     image: String,
     modifier: Modifier = Modifier
 ) {
-    AsyncImage(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(MaterialTheme.spacing.medium)),
-        model = ImageRequest
-            .Builder(LocalContext.current)
-            .data(image)
-            .placeholder(R.drawable.placeholder_image)
-            .crossfade(true)
-            .build(),
-        contentScale = ContentScale.FillWidth,
-        contentDescription = "Cat"
-    )
+    Card(
+        shape = MaterialTheme.shapes.large,
+        modifier = Modifier.wrapContentHeight()
+    ) {
+        AsyncImage(
+            modifier = modifier
+                .fillMaxWidth(),
+            model = ImageRequest
+                .Builder(LocalContext.current)
+                .data(image)
+                .placeholder(R.drawable.placeholder_image)
+                .crossfade(true)
+                .build(),
+            contentScale = ContentScale.FillWidth,
+            contentDescription = "Cat",
+            filterQuality = FilterQuality.None
+        )
+    }
 }
