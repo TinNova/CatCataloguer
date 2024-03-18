@@ -159,6 +159,9 @@ dependencies {
     testImplementation("app.cash.turbine:turbine:1.0.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    // Preferences DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
     //OkHttp Http Client For Kotlin & Java
     implementation("com.squareup.okhttp3:okhttp:$okHttp")
     //OkHttp Logs HTTP Requests & Responses

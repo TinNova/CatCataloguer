@@ -113,7 +113,9 @@ fun HomeScreenContent(
                         modifier = Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        items(catLazyPagingItems) { cat ->
+                        items(
+                            catLazyPagingItems,
+                            key = { it.id }) { cat ->
                             if (cat != null) {
                                 CatItem(
                                     cat = cat,

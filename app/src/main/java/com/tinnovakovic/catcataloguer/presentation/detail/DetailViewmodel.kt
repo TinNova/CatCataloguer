@@ -42,7 +42,7 @@ class DetailViewModel @Inject constructor(
     override fun onUiEvent(event: UiEvents) {
         when (event) {
             is UiEvents.Initialise -> initialise()
-            UiEvents.UpButtonClicked -> {
+            is UiEvents.UpButtonClicked -> {
                 navManager.navigate(direction = NavDirection.homeScreen)
             }
 

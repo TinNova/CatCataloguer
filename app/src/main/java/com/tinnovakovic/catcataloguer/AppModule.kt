@@ -1,6 +1,9 @@
 package com.tinnovakovic.catcataloguer
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room.databaseBuilder
 import com.tinnovakovic.catcataloguer.data.TheCatApi
 import com.tinnovakovic.catcataloguer.data.db.CatDao
@@ -68,4 +71,15 @@ object AppModule {
     @Singleton
     fun providesResourceProvider(contextProvider: ContextProvider): ResourceProvider =
         ResourceProviderImpl(contextProvider)
+
+    private const val DATA_STORE_NAME = "user_preferences"
+    // Extension property to create a DataStore<Preferences> instance
+    private val Context.dataStore by preferencesDataStore(name = DATA_STORE_NAME)
+
+    @Singleton
+    @Provides
+    fun providePreferencesDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
+        // Using DataStoreFactory for a custom initialization if needed
+        return context.dataStore
+    }
 }
