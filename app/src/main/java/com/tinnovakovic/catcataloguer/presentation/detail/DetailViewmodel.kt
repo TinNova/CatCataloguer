@@ -7,11 +7,15 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.tinnovakovic.catcataloguer.data.CatRepo
 import com.tinnovakovic.catcataloguer.data.models.local.CatImage
+import com.tinnovakovic.catcataloguer.presentation.detail.DetailContract.*
+import com.tinnovakovic.catcataloguer.presentation.detail.DetailContract.UiState.Page
 import com.tinnovakovic.catcataloguer.shared.NavDirection
 import com.tinnovakovic.catcataloguer.shared.NavManager
+import com.tinnovakovic.catcataloguer.shared.ResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,12 +23,13 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     private val navManager: NavManager,
     private val catRepo: CatRepo,
+    private val resourceProvider: ResourceProvider,
     savedStateHandle: SavedStateHandle,
-) : DetailContract.ViewModel() {
+) : ViewModel() {
 
     private var initialiseCalled = false
     private val catBreedId: String = checkNotNull(savedStateHandle["catBreedId"])
-    override val _uiState: MutableStateFlow<DetailContract.UiState> =
+    override val _uiState: MutableStateFlow<UiState> =
         MutableStateFlow(initialUiState())
 
     @MainThread
@@ -35,11 +40,15 @@ class DetailViewModel @Inject constructor(
         getCatDetail()
     }
 
-    override fun onUiEvent(event: DetailContract.UiEvents) {
+    override fun onUiEvent(event: UiEvents) {
         when (event) {
-            is DetailContract.UiEvents.Initialise -> initialise()
-            DetailContract.UiEvents.UpButtonClicked -> {
+            is UiEvents.Initialise -> initialise()
+            UiEvents.UpButtonClicked -> {
                 navManager.navigate(direction = NavDirection.homeScreen)
+            }
+
+            is UiEvents.OnPageSelected -> {
+                updateUiState { it.copy(currentPage = event.selectedPage) }
             }
         }
     }
@@ -58,10 +67,11 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    companion object {
-        fun initialUiState() = DetailContract.UiState(
-            images = null,
-            catDetail = null
-        )
-    }
+    private fun initialUiState() = UiState(
+        images = null,
+        catDetail = null,
+        initialPage = Page.Info,
+        currentPage = Page.Info,
+        tabRowTitles = Page.values().map { resourceProvider.getString(it.stringRes) }
+    )
 }

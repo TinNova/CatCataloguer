@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CatCataloguer</string>
+
+    <string name="info_tab">Info</string>
+    <string name="image_tab">Images</string>
+
 </resources>

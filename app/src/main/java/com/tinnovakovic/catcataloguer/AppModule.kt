@@ -10,6 +10,10 @@ import com.tinnovakovic.catcataloguer.data.mediator.CatImageRemoteMediatorFactor
 import com.tinnovakovic.catcataloguer.data.mediator.CatRemoteMediatorFactory
 import com.tinnovakovic.catcataloguer.data.mediator.CatRemoteMediatorFactoryImpl
 import com.tinnovakovic.catcataloguer.shared.CAT_DATABASE
+import com.tinnovakovic.catcataloguer.shared.ContextProvider
+import com.tinnovakovic.catcataloguer.shared.ContextProviderImpl
+import com.tinnovakovic.catcataloguer.shared.ResourceProvider
+import com.tinnovakovic.catcataloguer.shared.ResourceProviderImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,4 +59,13 @@ object AppModule {
         return CatImageRemoteMediatorFactoryImpl(catDatabase, catApi)
     }
 
+    @Provides
+    @Singleton
+    fun providesContextProvider(@ApplicationContext context: Context): ContextProvider =
+        ContextProviderImpl(context)
+
+    @Provides
+    @Singleton
+    fun providesResourceProvider(contextProvider: ContextProvider): ResourceProvider =
+        ResourceProviderImpl(contextProvider)
 }
