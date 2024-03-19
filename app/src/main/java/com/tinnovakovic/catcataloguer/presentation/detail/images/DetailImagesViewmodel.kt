@@ -1,7 +1,6 @@
 package com.tinnovakovic.catcataloguer.presentation.detail.images
 
 import androidx.annotation.MainThread
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -9,6 +8,7 @@ import com.tinnovakovic.catcataloguer.data.CatBreedIdInMemoryCache
 import com.tinnovakovic.catcataloguer.data.CatRepo
 import com.tinnovakovic.catcataloguer.data.models.local.CatImage
 import com.tinnovakovic.catcataloguer.presentation.detail.images.DetailImagesContract.*
+import com.tinnovakovic.catcataloguer.shared.ErrorToUser
 import com.tinnovakovic.catcataloguer.shared.ExceptionHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +20,6 @@ class DetailImagesViewModel @Inject constructor(
     private val catRepo: CatRepo,
     private val exceptionHandler: ExceptionHandler,
     private val catBreedIdInMemoryCache: CatBreedIdInMemoryCache,
-    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private var initialiseCalled = false
@@ -37,8 +36,22 @@ class DetailImagesViewModel @Inject constructor(
     override fun onUiEvent(event: UiEvents) {
         when (event) {
             is UiEvents.Initialise -> initialise()
-            is UiEvents.ClearErrorMessage -> TODO()
-            is UiEvents.PagingError -> TODO()
+            is UiEvents.PagingError -> {
+                if (!uiState.value.errorShown) {
+                    val error: ErrorToUser = exceptionHandler.execute(event.error)
+
+                    updateUiState {
+                        it.copy(
+                            displayError = error.message,
+                            errorShown = true
+                        )
+                    }
+                }
+            }
+
+            is UiEvents.ClearErrorMessage -> {
+                updateUiState { it.copy(displayError = null) }
+            }
         }
     }
 
@@ -51,5 +64,7 @@ class DetailImagesViewModel @Inject constructor(
 
     private fun initialUiState() = UiState(
         images = null,
+        displayError = null,
+        errorShown = false
     )
 }

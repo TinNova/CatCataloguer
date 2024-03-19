@@ -68,6 +68,7 @@ fun GreetingPreview() {
 
 //TODO:
 // - Consider DarkMode/LightMode
+// - Set up pull to refresh as when offline first you won't get results
 // - Use the libs.versions.toml file to manage dependencies
 // - Is there a need to wrap network objects in a Result object?
 // - Error Handling - DetailScreen - Images with Page 3 Mediator - Info data, handle this with Result like you have in Hiking and EWallet

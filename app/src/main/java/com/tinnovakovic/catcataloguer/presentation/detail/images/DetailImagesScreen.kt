@@ -28,6 +28,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.tinnovakovic.catcataloguer.R
 import com.tinnovakovic.catcataloguer.data.models.local.CatImage
+import com.tinnovakovic.catcataloguer.presentation.ToastErrorMessage
 import com.tinnovakovic.catcataloguer.presentation.detail.images.DetailImagesContract.*
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
 import kotlinx.coroutines.flow.Flow
@@ -53,6 +54,13 @@ fun DetailImagesContent(
         uiAction(UiEvents.Initialise)
     }
 
+    if (uiState.displayError != null) {
+        ToastErrorMessage(uiState.displayError)
+        LaunchedEffect(true) {
+            uiAction(UiEvents.ClearErrorMessage)
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -61,30 +69,51 @@ fun DetailImagesContent(
         uiState.images?.let { imagePagingFlow: Flow<PagingData<CatImage>> ->
             val catImageLazyPagingItems = imagePagingFlow.collectAsLazyPagingItems()
 
-            if (catImageLazyPagingItems.loadState.refresh is LoadState.Loading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            } else {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    item {}
-                    items(
-                        catImageLazyPagingItems,
-                        key = { it.id }
-                    ) { image ->
-                        if (image != null) {
-                            CatImage(
-                                image = image.url,
-                            )
-                        }
+            when (catImageLazyPagingItems.loadState.refresh) {
+                LoadState.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+
+                is LoadState.Error -> {
+                    LaunchedEffect(true) {
+                        uiAction(UiEvents.PagingError((catImageLazyPagingItems.loadState.refresh as LoadState.Error).error))
                     }
-                    item {
-                        if (catImageLazyPagingItems.loadState.append is LoadState.Loading) {
-                            CircularProgressIndicator()
+                }
+
+                is LoadState.NotLoading -> {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        item {}
+                        items(
+                            catImageLazyPagingItems,
+                            key = { it.id }
+                        ) { image ->
+                            if (image != null) {
+                                CatImage(
+                                    image = image.url,
+                                )
+                            }
+                        }
+                        item {
+                            when (catImageLazyPagingItems.loadState.append) {
+                                LoadState.Loading -> {
+                                    CircularProgressIndicator()
+                                }
+
+                                is LoadState.Error -> {
+                                    if (!uiState.errorShown) {
+                                        uiAction(UiEvents.PagingError((catImageLazyPagingItems.loadState.append as LoadState.Error).error))
+                                    }
+                                }
+
+                                is LoadState.NotLoading -> { /* no-op */
+                                }
+                            }
                         }
                     }
                 }

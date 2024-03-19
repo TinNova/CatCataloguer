@@ -1,6 +1,5 @@
 package com.tinnovakovic.catcataloguer.presentation.home
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,6 +40,7 @@ import com.tinnovakovic.catcataloguer.data.models.local.Cat
 import com.tinnovakovic.catcataloguer.presentation.home.HomeContract.UiEvents
 import com.tinnovakovic.catcataloguer.presentation.home.HomeContract.UiState
 import androidx.paging.compose.items
+import com.tinnovakovic.catcataloguer.presentation.ToastErrorMessage
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
 
 
@@ -173,15 +173,6 @@ fun HomeScreenContent(
             }
         }
     }
-}
-
-@Composable
-fun ToastErrorMessage(error: String) {
-    Toast.makeText(
-        LocalContext.current,
-        error,
-        Toast.LENGTH_LONG
-    ).show()
 }
 
 @Composable

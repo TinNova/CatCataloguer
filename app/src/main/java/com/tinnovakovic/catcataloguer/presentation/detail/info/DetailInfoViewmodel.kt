@@ -1,7 +1,6 @@
 package com.tinnovakovic.catcataloguer.presentation.detail.info
 
 import androidx.annotation.MainThread
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.tinnovakovic.catcataloguer.data.CatBreedIdInMemoryCache
 import com.tinnovakovic.catcataloguer.data.CatRepo

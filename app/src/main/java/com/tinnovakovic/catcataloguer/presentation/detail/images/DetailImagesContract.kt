@@ -15,8 +15,9 @@ interface DetailImagesContract {
     @Immutable
     data class UiState(
         val images: Flow<PagingData<CatImage>>?,
+        val displayError: String?,
+        val errorShown: Boolean,
     ) : BaseUiState {}
-
 
     sealed class UiEvents : BaseUiEvent {
         data object Initialise : UiEvents()
