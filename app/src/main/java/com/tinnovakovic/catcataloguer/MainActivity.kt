@@ -67,7 +67,6 @@ fun GreetingPreview() {
 }
 
 //TODO:
-// - Consider System Process Death Recovery & Retain state of the filter option the user selected when returning to homeScreen!!
 // - Consider DarkMode/LightMode
 // - Use the libs.versions.toml file to manage dependencies
 // - Is there a need to wrap network objects in a Result object?
@@ -98,6 +97,8 @@ fun GreetingPreview() {
 // - The images appear to jump in order, I think it's because some load faster than others giving that illusion
 //   to fix this a placeholder needs to be implemented
 // - Error Handling on HomeScreen
+// - Consider System Process Death Recovery & Retain state of the filter option the user selected when returning to homeScreen!!
+
 
 
 

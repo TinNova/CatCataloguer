@@ -15,6 +15,8 @@ import com.tinnovakovic.catcataloguer.data.mediator.CatRemoteMediatorFactoryImpl
 import com.tinnovakovic.catcataloguer.shared.CAT_DATABASE
 import com.tinnovakovic.catcataloguer.shared.ContextProvider
 import com.tinnovakovic.catcataloguer.shared.ContextProviderImpl
+import com.tinnovakovic.catcataloguer.shared.ExceptionHandler
+import com.tinnovakovic.catcataloguer.shared.ExceptionHandlerImpl
 import com.tinnovakovic.catcataloguer.shared.ResourceProvider
 import com.tinnovakovic.catcataloguer.shared.ResourceProviderImpl
 import dagger.Module
@@ -81,5 +83,11 @@ object AppModule {
     fun providePreferencesDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
         // Using DataStoreFactory for a custom initialization if needed
         return context.dataStore
+    }
+
+    @Singleton
+    @Provides
+    fun providesErrorHandler(contextProvider: ContextProvider): ExceptionHandler {
+        return ExceptionHandlerImpl(contextProvider)
     }
 }

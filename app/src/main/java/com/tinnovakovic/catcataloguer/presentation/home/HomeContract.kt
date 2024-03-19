@@ -16,12 +16,15 @@ interface HomeContract {
     @Immutable
     data class UiState(
         val cats: Flow<PagingData<Cat>>?,
-        val sortOrder: BreedSortOrder
+        val sortOrder: BreedSortOrder,
+        val displayError: String?,
     ) : BaseUiState {}
 
     sealed class UiEvents : BaseUiEvent {
         data object Initialise : UiEvents()
         data class CatBreedClicked(val catBreedId: String) : UiEvents()
         data class FilterOptionClicked(val sortOrder: BreedSortOrder) : UiEvents()
+        data class PagingError(val error: Throwable): UiEvents()
+        data object ClearErrorMessage : UiEvents()
     }
 }

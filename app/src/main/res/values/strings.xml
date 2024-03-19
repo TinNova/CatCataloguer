@@ -4,4 +4,8 @@
     <string name="info_tab">Info</string>
     <string name="image_tab">Images</string>
 
+    <string name="io_error_message">No Network Connection.</string>
+    <string name="http_error_message">Error Loading Information.</string>
+    <string name="generic_error_message">An Error Occurred.</string>
+
 </resources>

@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +43,6 @@ import com.tinnovakovic.catcataloguer.presentation.home.HomeContract.UiEvents
 import com.tinnovakovic.catcataloguer.presentation.home.HomeContract.UiState
 import androidx.paging.compose.items
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
-import java.io.IOException
 
 
 @Composable
@@ -96,6 +96,14 @@ fun HomeScreenContent(
             )
         }
     ) { scaffoldPadding ->
+
+        if (uiState.displayError != null) {
+            ToastErrorMessage(uiState.displayError)
+            LaunchedEffect(true) {
+                uiAction(UiEvents.ClearErrorMessage)
+            }
+        }
+
         Box(
             modifier = Modifier
                 .padding(scaffoldPadding)
@@ -112,9 +120,11 @@ fun HomeScreenContent(
                         )
                     }
 
-                    is LoadState.Error -> ToastErrorMessage(
-                        (catLazyPagingItems.loadState.refresh as LoadState.Error).error
-                    )
+                    is LoadState.Error -> {
+                        LaunchedEffect(true) {
+                            uiAction(UiEvents.PagingError((catLazyPagingItems.loadState.refresh as LoadState.Error).error))
+                        }
+                    }
 
                     else -> {
                         LazyColumn(
@@ -150,11 +160,12 @@ fun HomeScreenContent(
                                         )
                                     }
 
-                                    is LoadState.Error -> ToastErrorMessage(
-                                        (catLazyPagingItems.loadState.append as LoadState.Error).error
-                                    )
+                                    is LoadState.Error -> LaunchedEffect(true) {
+                                        uiAction(UiEvents.PagingError((catLazyPagingItems.loadState.append as LoadState.Error).error))
+                                    }
 
-                                    is LoadState.NotLoading -> { /* no-op */ }
+                                    is LoadState.NotLoading -> { /* no-op */
+                                    }
                                 }
                             }
                         }
@@ -166,14 +177,10 @@ fun HomeScreenContent(
 }
 
 @Composable
-fun ToastErrorMessage(error: Throwable) {
-    val errorMessage = when (error) {
-        is IOException -> "No Network Connection"
-        else -> "Error Loading Information"
-    }
+fun ToastErrorMessage(error: String) {
     Toast.makeText(
         LocalContext.current,
-        errorMessage,
+        error,
         Toast.LENGTH_LONG
     ).show()
 }
