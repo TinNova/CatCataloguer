@@ -8,10 +8,8 @@ import androidx.paging.cachedIn
 import com.tinnovakovic.catcataloguer.data.CatRepo
 import com.tinnovakovic.catcataloguer.data.models.local.CatImage
 import com.tinnovakovic.catcataloguer.presentation.detail.DetailContract.*
-import com.tinnovakovic.catcataloguer.presentation.detail.DetailContract.UiState.Page
 import com.tinnovakovic.catcataloguer.shared.NavDirection
 import com.tinnovakovic.catcataloguer.shared.NavManager
-import com.tinnovakovic.catcataloguer.shared.ResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +20,6 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     private val navManager: NavManager,
     private val catRepo: CatRepo,
-    private val resourceProvider: ResourceProvider,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -45,10 +42,6 @@ class DetailViewModel @Inject constructor(
             is UiEvents.UpButtonClicked -> {
                 navManager.navigate(direction = NavDirection.homeScreen)
             }
-
-            is UiEvents.OnPageSelected -> {
-                updateUiState { it.copy(currentPage = event.selectedPage) }
-            }
         }
     }
 
@@ -68,9 +61,6 @@ class DetailViewModel @Inject constructor(
 
     private fun initialUiState() = UiState(
         images = null,
-        catDetail = null,
-        initialPage = Page.Info,
-        currentPage = Page.Info,
-        tabRowTitles = Page.values().map { resourceProvider.getString(it.stringRes) }
+        catDetail = null
     )
 }

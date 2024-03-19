@@ -1,5 +1,6 @@
 package com.tinnovakovic.catcataloguer.presentation.detail
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -8,6 +9,8 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,13 +23,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.tinnovakovic.catcataloguer.R
 import com.tinnovakovic.catcataloguer.presentation.detail.DetailContract.*
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.launch
 
 @Composable
 fun DetailScreen() {
@@ -67,47 +73,41 @@ fun DetailScreenContent(
                 .padding(scaffoldPadding)
         ) {
 
-            DetailHorizontalPager(uiState, uiAction)
+            DetailHorizontalPager(uiState)
 
         }
     }
 }
 
-
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-private fun DetailHorizontalPager(uiState: UiState, uiAction: (UiEvents) -> Unit) {
+private fun DetailHorizontalPager(uiState: UiState) {
     val pagerState = rememberPagerState(
-        initialPage = uiState.initialPage.index, // The initial page to show
-        pageCount = { uiState.tabRowTitles.size }
+        pageCount = { Page.entries.size }
     )
 
-    LaunchedEffect(pagerState) {
-        snapshotFlow { pagerState.currentPage }
-            .drop(1)
-            .collect { currentPageIndex ->
-                uiAction(UiEvents.OnPageSelected(UiState.Page.getPageForIndex(currentPageIndex)))
-            }
-    }
+    val coroutineScope = rememberCoroutineScope()
 
     PrimaryTabRow(
-        selectedTabIndex = uiState.currentPage.index,
+        selectedTabIndex = pagerState.currentPage,
     ) {
-        uiState.tabRowTitles.forEachIndexed { index, currentTab ->
+        Page.entries.forEachIndexed { index, currentTab ->
             Tab(
-                selected = uiState.currentPage.index == index,
+                selected = pagerState.currentPage == index,
                 onClick = {
-                    uiAction(UiEvents.OnPageSelected(UiState.Page.getPageForIndex(index)))
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(index)
+                    }
                 },
                 icon = {
                     Image(
-                        imageVector = UiState.Page.getPageForIndex(index).imageVector,
-                        contentDescription = stringResource(id = UiState.Page.getPageForIndex(index).stringRes)
+                        imageVector = Page.entries[index].imageVector,
+                        contentDescription = stringResource(id = Page.entries[index].stringRes)
                     )
                 },
                 text = {
                     Text(
-                        text = stringResource(id = UiState.Page.getPageForIndex(index).stringRes),
+                        text = stringResource(id = Page.entries[index].stringRes),
                         style = MaterialTheme.typography.titleMedium
                     )
                 },
@@ -115,21 +115,30 @@ private fun DetailHorizontalPager(uiState: UiState, uiAction: (UiEvents) -> Unit
         }
     }
 
-    LaunchedEffect(uiState.currentPage) {
-        pagerState.animateScrollToPage(uiState.currentPage.index)
-    }
-
     HorizontalPager(
         state = pagerState,
     ) { pageIndex ->
-        when (UiState.Page.getPageForIndex(pageIndex)) {
-            UiState.Page.Info -> {
+        when (Page.entries[pageIndex]) {
+            Page.Info -> {
                 DetailInfoContent(catDetail = uiState.catDetail)
             }
-
-            UiState.Page.Images -> {
+            Page.Images -> {
                 DetailImagesContent(images = uiState.images)
             }
         }
     }
+}
+
+enum class Page(
+    @StringRes val stringRes: Int,
+    val imageVector: ImageVector,
+) {
+    Info(
+        stringRes = R.string.info_tab,
+        imageVector = Icons.Outlined.Info,
+    ),
+    Images(
+        stringRes = R.string.image_tab,
+        imageVector = Icons.Outlined.Photo
+    )
 }
