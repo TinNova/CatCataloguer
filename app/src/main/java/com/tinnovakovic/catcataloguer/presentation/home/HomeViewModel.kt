@@ -53,7 +53,7 @@ class HomeViewModel @Inject constructor(
             HomeContract.UiEvents.Initialise -> initialise()
 
             is HomeContract.UiEvents.CatBreedClicked -> {
-                navManager.navigate(direction = NavDirection.catBreedDetailScreen(event.catBreedId))
+                navManager.navigate(direction = NavDirection.catBreedDetailScreen(event.catBreedId, event.catBreedName))
             }
 
             is HomeContract.UiEvents.FilterOptionClicked -> {

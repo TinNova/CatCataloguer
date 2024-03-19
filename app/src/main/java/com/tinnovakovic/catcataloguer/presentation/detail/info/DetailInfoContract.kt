@@ -1,18 +1,19 @@
-package com.tinnovakovic.catcataloguer.presentation.detail
+package com.tinnovakovic.catcataloguer.presentation.detail.info
 
+import com.tinnovakovic.catcataloguer.data.models.local.CatDetail
 import com.tinnovakovic.catcataloguer.shared.mvi.BaseUiEvent
 import com.tinnovakovic.catcataloguer.shared.mvi.BaseUiState
 import com.tinnovakovic.catcataloguer.shared.mvi.BaseViewModel
 import javax.annotation.concurrent.Immutable
 
-interface DetailContract {
+interface DetailInfoContract {
 
     abstract class ViewModel : BaseViewModel<UiEvents, UiState>()
 
     @Immutable
     data class UiState(
-        val catBreedName: String?
-    ) : BaseUiState
+        val catDetail: CatDetail?
+    ) : BaseUiState {}
 
 
     sealed class UiEvents : BaseUiEvent {

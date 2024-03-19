@@ -31,7 +31,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tinnovakovic.catcataloguer.R
 import com.tinnovakovic.catcataloguer.presentation.detail.DetailContract.*
-import kotlinx.coroutines.flow.drop
+import com.tinnovakovic.catcataloguer.presentation.detail.images.DetailImagesScreen
+import com.tinnovakovic.catcataloguer.presentation.detail.info.DetailInfoScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -58,7 +59,7 @@ fun DetailScreenContent(
 
     Scaffold(
         topBar = {
-            MediumTopAppBar(title = { Text(text = uiState.catDetail?.name ?: "") },
+            MediumTopAppBar(title = { Text(text = uiState.catBreedName ?: "") },
                 navigationIcon = {
                     IconButton(onClick = { uiAction(UiEvents.UpButtonClicked) }
                     ) {
@@ -73,7 +74,7 @@ fun DetailScreenContent(
                 .padding(scaffoldPadding)
         ) {
 
-            DetailHorizontalPager(uiState)
+            DetailHorizontalPager()
 
         }
     }
@@ -81,7 +82,7 @@ fun DetailScreenContent(
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-private fun DetailHorizontalPager(uiState: UiState) {
+private fun DetailHorizontalPager() {
     val pagerState = rememberPagerState(
         pageCount = { Page.entries.size }
     )
@@ -120,10 +121,10 @@ private fun DetailHorizontalPager(uiState: UiState) {
     ) { pageIndex ->
         when (Page.entries[pageIndex]) {
             Page.Info -> {
-                DetailInfoContent(catDetail = uiState.catDetail)
+                DetailInfoScreen()
             }
             Page.Images -> {
-                DetailImagesContent(images = uiState.images)
+                DetailImagesScreen()
             }
         }
     }

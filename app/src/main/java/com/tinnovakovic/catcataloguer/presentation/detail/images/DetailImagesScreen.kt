@@ -1,4 +1,4 @@
-package com.tinnovakovic.catcataloguer.presentation.detail
+package com.tinnovakovic.catcataloguer.presentation.detail.images
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,11 +11,15 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -24,17 +28,37 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.tinnovakovic.catcataloguer.R
 import com.tinnovakovic.catcataloguer.data.models.local.CatImage
+import com.tinnovakovic.catcataloguer.presentation.detail.images.DetailImagesContract.*
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
 import kotlinx.coroutines.flow.Flow
 
 @Composable
-fun DetailImagesContent(images: Flow<PagingData<CatImage>>?) {
+fun DetailImagesScreen() {
+    val viewModel = hiltViewModel<DetailImagesViewModel>()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    DetailImagesContent(
+        uiState = uiState,
+        uiAction = viewModel::onUiEvent,
+    )
+}
+
+@Composable
+fun DetailImagesContent(
+    uiState: UiState,
+    uiAction: (UiEvents) -> Unit,
+) {
+    LaunchedEffect(true) {
+        // This instead on using init{} in viewModel to prevent race condition
+        uiAction(UiEvents.Initialise)
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = MaterialTheme.spacing.medium)
     ) {
-        images?.let { imagePagingFlow: Flow<PagingData<CatImage>> ->
+        uiState.images?.let { imagePagingFlow: Flow<PagingData<CatImage>> ->
             val catImageLazyPagingItems = imagePagingFlow.collectAsLazyPagingItems()
 
             if (catImageLazyPagingItems.loadState.refresh is LoadState.Loading) {

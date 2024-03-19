@@ -21,12 +21,13 @@ object NavDirection {
     }
 
     fun catBreedDetailScreen(
-        catBreedId: String? = null
+        catBreedId: String? = null,
+        catBreedName: String? = null
     ) = object : NavCommand {
 
         override val arguments = emptyList<NamedNavArgument>()
 
-        override val destinationRoute = "${Destination.Detail.name}/$catBreedId"
+        override val destinationRoute = "${Destination.Detail.name}/$catBreedId/$catBreedName"
     }
 
 }

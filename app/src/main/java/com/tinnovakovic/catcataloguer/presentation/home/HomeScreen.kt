@@ -27,7 +27,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -139,7 +138,7 @@ fun HomeScreenContent(
                                         cat = cat,
                                         modifier = Modifier
                                             .clickable {
-                                                uiAction(UiEvents.CatBreedClicked(cat.id))
+                                                uiAction(UiEvents.CatBreedClicked(cat.id, cat.name))
                                             }
                                             .fillMaxSize()
                                             .padding(

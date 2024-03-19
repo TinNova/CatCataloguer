@@ -1,4 +1,4 @@
-package com.tinnovakovic.catcataloguer.presentation.detail
+package com.tinnovakovic.catcataloguer.presentation.detail.info
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -16,17 +16,42 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import com.tinnovakovic.catcataloguer.data.models.local.CatDetail
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.tinnovakovic.catcataloguer.presentation.detail.info.DetailInfoContract.*
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
+
+@Composable
+fun DetailInfoScreen() {
+    val viewModel = hiltViewModel<DetailInfoViewModel>()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    DetailScreenContent(
+        uiState = uiState,
+        uiAction = viewModel::onUiEvent,
+    )
+}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun DetailInfoContent(catDetail: CatDetail?) {
-    if (catDetail != null) {
+fun DetailScreenContent(
+    uiState: UiState,
+    uiAction: (UiEvents) -> Unit,
+) {
+    LaunchedEffect(true) {
+        // This instead on using init{} in viewModel to prevent race condition
+        uiAction(UiEvents.Initialise)
+    }
+
+    if (uiState.catDetail != null) {
+        val catDetail = uiState.catDetail
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
