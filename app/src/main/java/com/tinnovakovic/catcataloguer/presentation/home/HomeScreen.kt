@@ -1,10 +1,7 @@
 package com.tinnovakovic.catcataloguer.presentation.home
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -35,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -46,6 +42,7 @@ import com.tinnovakovic.catcataloguer.data.models.local.Cat
 import com.tinnovakovic.catcataloguer.presentation.home.HomeContract.UiEvents
 import com.tinnovakovic.catcataloguer.presentation.home.HomeContract.UiState
 import androidx.paging.compose.items
+import com.tinnovakovic.catcataloguer.presentation.CatItem
 import com.tinnovakovic.catcataloguer.presentation.ToastErrorMessage
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
 
@@ -87,10 +84,12 @@ fun HomeScreenContent(
         topBar = {
             LargeTopAppBar(
                 windowInsets = WindowInsets(0.dp),
-                title = { Text(
-                    text = "Cat Catalogue",
-                    style = MaterialTheme.typography.headlineLarge
-                ) },
+                title = {
+                    Text(
+                        text = "Cat Catalogue",
+                        style = MaterialTheme.typography.headlineLarge
+                    )
+                },
                 actions = {
                     IconButton(onClick = { showMenu = !showMenu }) {
                         Icon(
@@ -100,7 +99,8 @@ fun HomeScreenContent(
                         DropdownMenu(
                             expanded = showMenu,
                             onDismissRequest = {
-                                showMenu = false }
+                                showMenu = false
+                            }
                         ) {
                             DropdownMenuItem(
                                 text = { Text("Filter By: ${uiState.sortOrder}") },
@@ -169,7 +169,6 @@ fun HomeScreenContent(
                         }
                     }
 
-
                     item {
                         when (catLazyPagingItems.loadState.append) {
                             is LoadState.Loading -> {
@@ -198,27 +197,4 @@ fun HomeScreenContent(
             )
         }
     }
-}
-
-@Composable
-fun CatItem(
-    cat: Cat,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.Bottom
-    ) {
-        Text(
-            text = cat.name,
-            fontWeight = FontWeight.W600,
-        )
-
-        Column(horizontalAlignment = Alignment.End) {
-            Text(text = cat.countryEmoji)
-            Text(text = cat.origin)
-        }
-    }
-
 }
