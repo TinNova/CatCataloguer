@@ -67,11 +67,10 @@ fun GreetingPreview() {
 }
 
 //TODO:
+// - Add Pull to refresh to detailImage and detailInfo screens
 // - Consider DarkMode/LightMode
 // - Set up pull to refresh as when offline first you won't get results
 // - Use the libs.versions.toml file to manage dependencies
-// - Is there a need to wrap network objects in a Result object?
-// - Error Handling - DetailScreen - Images with Page 3 Mediator - Info data, handle this with Result like you have in Hiking and EWallet
 // - Can CatMappers be improved? They are extension function except for one of them...
 // - What happens if any of the DTO values are null? App Crash...Can Result object prevent that? To test this remove the @Serialized param from country_code and it'll crash due to null object or pass an object via Retrofit with a null value
 // - Consider Accessibility and what app looks like with enlarged fonts and zoom
@@ -82,9 +81,6 @@ fun GreetingPreview() {
 // - See if this colour change when scroll under TopAppBar can be enabled: https://m3.material.io/components/top-app-bar/guidelines#4eab4f50-4a3e-4189-bce2-a46514cde1da
 // - Caching in Coil is not automatic, look at setting it up
 // - Add loading icon to centre of screen in DetailImage Screen
-// - Saving state of tab position not working after process death -> Could be because you're not using flow, use flow like in the Meerkat App FullDetailsScreen
-// - For handling errors from Paging 3, to remove the error handling from Screen, consider sending a UIEvent to the ViewModel, map the error there and send back an error message to display?
-//    - Or try to wrap the result in a sealed Class again with the help of ChatGPT
 
 //TODO EXTRAS:
 // - Add API to Header to avoid code duplication
@@ -99,8 +95,11 @@ fun GreetingPreview() {
 //   to fix this a placeholder needs to be implemented
 // - Error Handling on HomeScreen
 // - Consider System Process Death Recovery & Retain state of the filter option the user selected when returning to homeScreen!!
-
-
+// - Error Handling - DetailScreen - Images with Page 3 Mediator - Info data, handle this with Result like you have in Hiking and EWallet
+// - Is there a need to wrap network objects in a Result object? -> Nah Paging 3 Handles it for us.
+// - For handling errors from Paging 3, to remove the error handling from Screen, consider sending a UIEvent to the ViewModel, map the error there and send back an error message to display?
+// - Pull To Refresh doesn't work when there is an empty list, because it's nested with a list != null
+//   - Look into how to set it up properly
 
 
 

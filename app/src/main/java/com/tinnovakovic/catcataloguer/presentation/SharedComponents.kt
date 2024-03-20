@@ -9,6 +9,6 @@ fun ToastErrorMessage(error: String) {
     Toast.makeText(
         LocalContext.current,
         error,
-        Toast.LENGTH_LONG
+        Toast.LENGTH_SHORT
     ).show()
 }

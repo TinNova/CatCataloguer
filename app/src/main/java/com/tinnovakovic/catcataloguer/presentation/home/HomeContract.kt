@@ -15,7 +15,7 @@ interface HomeContract {
 
     @Immutable
     data class UiState(
-        val cats: Flow<PagingData<Cat>>?,
+        val cats: Flow<PagingData<Cat>>,
         val sortOrder: BreedSortOrder,
         val displayError: String?,
     ) : BaseUiState {}
