@@ -103,7 +103,13 @@ fun DetailScreenContent(
                             SuggestionChip(
                                 onClick = {},
                                 label = {
-                                    Text(text = "${personalityScore.score}/5")
+                                    Text(
+                                        text = if (personalityScore.score == -1) {
+                                            "N/A"
+                                        } else {
+                                            "${personalityScore.score}/5"
+                                        }
+                                    )
                                 }
                             )
                         }

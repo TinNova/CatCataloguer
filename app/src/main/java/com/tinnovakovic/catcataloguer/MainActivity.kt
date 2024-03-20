@@ -67,23 +67,30 @@ fun GreetingPreview() {
 }
 
 //TODO:
-// - Add Pull to refresh to detailImage and detailInfo screens
-// - Consider DarkMode/LightMode
-// - Set up pull to refresh as when offline first you won't get results
-// - Use the libs.versions.toml file to manage dependencies
+//  MAPPERS IMPROVEMENT
 // - Can CatMappers be improved? They are extension function except for one of them...
-// - What happens if any of the DTO values are null? App Crash...Can Result object prevent that? To test this remove the @Serialized param from country_code and it'll crash due to null object or pass an object via Retrofit with a null value
-// - Consider Accessibility and what app looks like with enlarged fonts and zoom
+//  LINTING
 // - Remove all hardcoded numbers and strings
+//  SHARED TRANSITION
 // - Fix the terrible transition from Home to Detail
-// - Make all Dto values nullable for defensive programming
+//   - Add Shared Transition Animation?
+//  MATERIAL DESIGN
 // - Make the theme look like the one in Material 3: https://m3.material.io/components/tabs/guidelines
 // - See if this colour change when scroll under TopAppBar can be enabled: https://m3.material.io/components/top-app-bar/guidelines#4eab4f50-4a3e-4189-bce2-a46514cde1da
+// - Consider DarkMode/LightMode
+//  ACCESSIBILITY AND LARGE FONT/ZOOMED
+// - Consider Accessibility and what app looks like with enlarged fonts and zoom
+//  COIL CACHING
 // - Caching in Coil is not automatic, look at setting it up
-// - Add loading icon to centre of screen in DetailImage Screen
+//  UNIT TESTING
+// - Write some quick unit tests
+//  MISSING
+// - LifeSpan and Weight missing from info screen, add another sharedPref for weight in lbs vs kgs
 
 //TODO EXTRAS:
 // - Add API to Header to avoid code duplication
+//  GRADLE
+// - Use the libs.versions.toml file to manage dependencies
 
 
 //DONE:
@@ -100,6 +107,13 @@ fun GreetingPreview() {
 // - For handling errors from Paging 3, to remove the error handling from Screen, consider sending a UIEvent to the ViewModel, map the error there and send back an error message to display?
 // - Pull To Refresh doesn't work when there is an empty list, because it's nested with a list != null
 //   - Look into how to set it up properly
+// - Add Pull to refresh to detailImage
+// - Set up pull to refresh as when offline first you won't get results
+//  DEFENSIVE API PROGRAMMING
+// - Make all Dto values nullable for defensive programming
+// - What happens if any of the DTO values are null? App Crash...Can Result object prevent that? To test this remove the @Serialized param from country_code and it'll crash due to null object or pass an object via Retrofit with a null value
+
+
 
 
 
