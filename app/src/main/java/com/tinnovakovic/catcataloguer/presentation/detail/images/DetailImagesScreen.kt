@@ -7,12 +7,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.PullRefreshState
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
@@ -21,7 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
-import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.AsyncImage
@@ -31,7 +38,6 @@ import com.tinnovakovic.catcataloguer.data.models.local.CatImage
 import com.tinnovakovic.catcataloguer.presentation.ToastErrorMessage
 import com.tinnovakovic.catcataloguer.presentation.detail.images.DetailImagesContract.*
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
-import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun DetailImagesScreen() {
@@ -44,6 +50,7 @@ fun DetailImagesScreen() {
     )
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DetailImagesContent(
     uiState: UiState,
@@ -61,64 +68,73 @@ fun DetailImagesContent(
         }
     }
 
+    val catImagePagingItems: LazyPagingItems<CatImage> =
+        uiState.images.collectAsLazyPagingItems()
+
+    val isLoading = remember { mutableStateOf(false) }
+    val pullRefreshState: PullRefreshState = rememberPullRefreshState(
+        refreshing = isLoading.value,
+        onRefresh = { catImagePagingItems.refresh() }
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = MaterialTheme.spacing.medium)
+            .pullRefresh(pullRefreshState)
     ) {
-        uiState.images?.let { imagePagingFlow: Flow<PagingData<CatImage>> ->
-            val catImageLazyPagingItems = imagePagingFlow.collectAsLazyPagingItems()
 
-            when (catImageLazyPagingItems.loadState.refresh) {
-                LoadState.Loading -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
+        if (catImagePagingItems.loadState.refresh is LoadState.Loading) {
+            isLoading.value = true
+        } else {
+            isLoading.value = false
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                item {}
+                items(
+                    catImagePagingItems,
+                    key = { it.id }
+                ) { image ->
+                    if (image != null) {
+                        CatImage(
+                            image = image.url,
+                        )
+                    }
 
-                is LoadState.Error -> {
-                    LaunchedEffect(true) {
-                        uiAction(UiEvents.PagingError((catImageLazyPagingItems.loadState.refresh as LoadState.Error).error))
+                    if (catImagePagingItems.loadState.refresh is LoadState.Error) {
+                        if (!uiState.errorShown) {
+                            uiAction(UiEvents.PagingError((catImagePagingItems.loadState.append as LoadState.Error).error))
+                        }
                     }
                 }
 
-                is LoadState.NotLoading -> {
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
-                        item {}
-                        items(
-                            catImageLazyPagingItems,
-                            key = { it.id }
-                        ) { image ->
-                            if (image != null) {
-                                CatImage(
-                                    image = image.url,
-                                )
+                item {
+                    when (catImagePagingItems.loadState.append) {
+                        LoadState.Loading -> {
+                            CircularProgressIndicator()
+                        }
+
+                        is LoadState.Error -> {
+                            if (!uiState.errorShown) {
+                                uiAction(UiEvents.PagingError((catImagePagingItems.loadState.append as LoadState.Error).error))
                             }
                         }
-                        item {
-                            when (catImageLazyPagingItems.loadState.append) {
-                                LoadState.Loading -> {
-                                    CircularProgressIndicator()
-                                }
 
-                                is LoadState.Error -> {
-                                    if (!uiState.errorShown) {
-                                        uiAction(UiEvents.PagingError((catImageLazyPagingItems.loadState.append as LoadState.Error).error))
-                                    }
-                                }
-
-                                is LoadState.NotLoading -> { /* no-op */
-                                }
-                            }
+                        is LoadState.NotLoading -> { /* no-op */
                         }
                     }
                 }
             }
         }
+
+        PullRefreshIndicator(
+            refreshing = isLoading.value,
+            state = pullRefreshState,
+            modifier = Modifier.align(Alignment.TopCenter),
+        )
     }
 }
 

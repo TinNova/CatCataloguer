@@ -13,6 +13,7 @@ import com.tinnovakovic.catcataloguer.shared.ExceptionHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -63,7 +64,7 @@ class DetailImagesViewModel @Inject constructor(
     }
 
     private fun initialUiState() = UiState(
-        images = null,
+        images = emptyFlow(),
         displayError = null,
         errorShown = false
     )
