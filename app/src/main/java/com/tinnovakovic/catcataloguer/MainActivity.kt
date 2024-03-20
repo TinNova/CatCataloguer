@@ -73,8 +73,6 @@ fun GreetingPreview() {
 // - Can CatMappers be improved? They are extension function except for one of them...
 //  LINTING
 // - Remove all hardcoded numbers and strings
-//  TRANSITION
-// - Create a left to right transition
 //  ACCESSIBILITY AND LARGE FONT/ZOOMED
 // - Consider Accessibility and what app looks like with enlarged fonts and zoom
 //  UNIT TESTING

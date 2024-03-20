@@ -11,8 +11,6 @@ import androidx.room.Upsert
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.tinnovakovic.catcataloguer.data.models.db.CatEntity
 import com.tinnovakovic.catcataloguer.data.models.db.CatImageEntity
-import com.tinnovakovic.catcataloguer.data.models.db.CatWithImages
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CatDao {

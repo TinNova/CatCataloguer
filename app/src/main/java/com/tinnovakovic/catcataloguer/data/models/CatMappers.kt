@@ -101,14 +101,18 @@ fun CatImageDto.toCatImageEntity(catId: String): CatImageEntity {
     return CatImageEntity(
         imageId = id,
         url = url,
-        catId = catId
+        catId = catId,
+        width = width,
+        height = height
     )
 }
 
 fun CatImageEntity.toCatImage(): CatImage {
     return CatImage(
         id = imageId,
-        url = url
+        url = url,
+        width = width.toFloat(),
+        height = height.toFloat()
     )
 }
 
