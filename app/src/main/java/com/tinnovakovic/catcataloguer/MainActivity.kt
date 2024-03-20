@@ -84,8 +84,7 @@ fun GreetingPreview() {
 // - Caching in Coil is not automatic, look at setting it up
 //  UNIT TESTING
 // - Write some quick unit tests
-//  MISSING
-// - LifeSpan and Weight missing from info screen, add another sharedPref for weight in lbs vs kgs
+// - GITHUB README, take screenshots with large and small font
 
 //TODO EXTRAS:
 // - Add API to Header to avoid code duplication
@@ -112,7 +111,8 @@ fun GreetingPreview() {
 //  DEFENSIVE API PROGRAMMING
 // - Make all Dto values nullable for defensive programming
 // - What happens if any of the DTO values are null? App Crash...Can Result object prevent that? To test this remove the @Serialized param from country_code and it'll crash due to null object or pass an object via Retrofit with a null value
-
+//  MISSING
+// - LifeSpan and Weight missing from info screen, add another sharedPref for weight in lbs vs kgs
 
 
 
