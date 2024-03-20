@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.tinnovakovic.catcataloguer.presentation.ExpandingCard
 import com.tinnovakovic.catcataloguer.presentation.detail.info.DetailInfoContract.*
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
 
@@ -59,8 +60,7 @@ fun DetailScreenContent(
                 .padding(horizontal = MaterialTheme.spacing.medium)
         ) {
             item {
-                SubTitle(text = "Description")
-                Text(text = catDetail.description)
+                ExpandingCard(title = "Description", description = catDetail.description)
 
                 if (catDetail.altNames.isNotEmpty()) {
                     SubTitle(text = "Other Names")

@@ -99,7 +99,8 @@ fun HomeScreenContent(
                         )
                         DropdownMenu(
                             expanded = showMenu,
-                            onDismissRequest = { showMenu = false }
+                            onDismissRequest = {
+                                showMenu = false }
                         ) {
                             DropdownMenuItem(
                                 text = { Text("Filter By: ${uiState.sortOrder}") },

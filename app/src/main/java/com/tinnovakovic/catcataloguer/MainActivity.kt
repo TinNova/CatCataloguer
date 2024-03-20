@@ -75,10 +75,6 @@ fun GreetingPreview() {
 // - Remove all hardcoded numbers and strings
 //  TRANSITION
 // - Create a left to right transition
-//  MATERIAL DESIGN
-// - Make the theme look like the one in Material 3: https://m3.material.io/components/tabs/guidelines
-// - See if this colour change when scroll under TopAppBar can be enabled: https://m3.material.io/components/top-app-bar/guidelines#4eab4f50-4a3e-4189-bce2-a46514cde1da
-// - Consider DarkMode/LightMode
 //  ACCESSIBILITY AND LARGE FONT/ZOOMED
 // - Consider Accessibility and what app looks like with enlarged fonts and zoom
 //  UNIT TESTING
@@ -114,5 +110,9 @@ fun GreetingPreview() {
 // - LifeSpan and Weight missing from info screen, add another sharedPref for weight in lbs vs kgs
 //  COIL CACHING
 // - Caching in Coil is automatic but setup your own to access logging
+//  MATERIAL DESIGN
+// - Make the theme look like the one in Material 3: https://m3.material.io/components/tabs/guidelines
+// - See if this colour change when scroll under TopAppBar can be enabled: https://m3.material.io/components/top-app-bar/guidelines#4eab4f50-4a3e-4189-bce2-a46514cde1da
+// - Consider DarkMode/LightMode
 
 
