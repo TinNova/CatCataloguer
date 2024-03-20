@@ -73,8 +73,6 @@ fun GreetingPreview() {
 // - Can CatMappers be improved? They are extension function except for one of them...
 //  LINTING
 // - Remove all hardcoded numbers and strings
-//  ACCESSIBILITY AND LARGE FONT/ZOOMED
-// - Consider Accessibility and what app looks like with enlarged fonts and zoom
 //  UNIT TESTING
 // - Write some quick unit tests
 // - GITHUB README, take screenshots with large and small font
@@ -112,5 +110,7 @@ fun GreetingPreview() {
 // - Make the theme look like the one in Material 3: https://m3.material.io/components/tabs/guidelines
 // - See if this colour change when scroll under TopAppBar can be enabled: https://m3.material.io/components/top-app-bar/guidelines#4eab4f50-4a3e-4189-bce2-a46514cde1da
 // - Consider DarkMode/LightMode
+//  ACCESSIBILITY AND LARGE FONT/ZOOMED
+// - Consider Accessibility and what app looks like with enlarged fonts and zoom
 
 
