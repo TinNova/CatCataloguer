@@ -2,15 +2,13 @@ package com.tinnovakovic.catcataloguer.presentation.detail
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,8 +23,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tinnovakovic.catcataloguer.R
@@ -58,8 +56,13 @@ fun DetailScreenContent(
     }
 
     Scaffold(
+        contentWindowInsets = WindowInsets(0.dp),
         topBar = {
-            MediumTopAppBar(title = { Text(text = uiState.catBreedName ?: "") },
+            MediumTopAppBar(
+                windowInsets = WindowInsets(0.dp),
+                title = {
+                    Text(text = uiState.catBreedName ?: "",
+                        style = MaterialTheme.typography.headlineMedium)},
                 navigationIcon = {
                     IconButton(onClick = { uiAction(UiEvents.UpButtonClicked) }
                     ) {
@@ -100,12 +103,6 @@ private fun DetailHorizontalPager() {
                         pagerState.animateScrollToPage(index)
                     }
                 },
-                icon = {
-                    Image(
-                        imageVector = Page.entries[index].imageVector,
-                        contentDescription = stringResource(id = Page.entries[index].stringRes)
-                    )
-                },
                 text = {
                     Text(
                         text = stringResource(id = Page.entries[index].stringRes),
@@ -132,14 +129,11 @@ private fun DetailHorizontalPager() {
 
 enum class Page(
     @StringRes val stringRes: Int,
-    val imageVector: ImageVector,
 ) {
     Info(
         stringRes = R.string.info_tab,
-        imageVector = Icons.Outlined.Info,
     ),
     Images(
         stringRes = R.string.image_tab,
-        imageVector = Icons.Outlined.Photo
     )
 }

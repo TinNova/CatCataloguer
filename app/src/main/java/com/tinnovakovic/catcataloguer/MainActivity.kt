@@ -3,6 +3,7 @@ package com.tinnovakovic.catcataloguer
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,6 +28,7 @@ class MainActivity : ComponentActivity() {
     lateinit var navManager: NavManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
             CatCataloguerTheme {
@@ -71,17 +73,14 @@ fun GreetingPreview() {
 // - Can CatMappers be improved? They are extension function except for one of them...
 //  LINTING
 // - Remove all hardcoded numbers and strings
-//  SHARED TRANSITION
-// - Fix the terrible transition from Home to Detail
-//   - Add Shared Transition Animation?
+//  TRANSITION
+// - Create a left to right transition
 //  MATERIAL DESIGN
 // - Make the theme look like the one in Material 3: https://m3.material.io/components/tabs/guidelines
 // - See if this colour change when scroll under TopAppBar can be enabled: https://m3.material.io/components/top-app-bar/guidelines#4eab4f50-4a3e-4189-bce2-a46514cde1da
 // - Consider DarkMode/LightMode
 //  ACCESSIBILITY AND LARGE FONT/ZOOMED
 // - Consider Accessibility and what app looks like with enlarged fonts and zoom
-//  COIL CACHING
-// - Caching in Coil is not automatic, look at setting it up
 //  UNIT TESTING
 // - Write some quick unit tests
 // - GITHUB README, take screenshots with large and small font
@@ -113,7 +112,7 @@ fun GreetingPreview() {
 // - What happens if any of the DTO values are null? App Crash...Can Result object prevent that? To test this remove the @Serialized param from country_code and it'll crash due to null object or pass an object via Retrofit with a null value
 //  MISSING
 // - LifeSpan and Weight missing from info screen, add another sharedPref for weight in lbs vs kgs
-
-
+//  COIL CACHING
+// - Caching in Coil is automatic but setup your own to access logging
 
 
