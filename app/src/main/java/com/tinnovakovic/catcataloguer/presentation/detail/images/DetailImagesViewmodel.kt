@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.tinnovakovic.catcataloguer.data.CatBreedIdInMemoryCache
 import com.tinnovakovic.catcataloguer.data.CatRepo
-import com.tinnovakovic.catcataloguer.data.models.local.CatImage
+import com.tinnovakovic.catcataloguer.data.models.local.CatBreedImage
 import com.tinnovakovic.catcataloguer.presentation.detail.images.DetailImagesContract.*
 import com.tinnovakovic.catcataloguer.shared.ErrorToUser
 import com.tinnovakovic.catcataloguer.shared.ExceptionHandler
@@ -57,8 +57,8 @@ class DetailImagesViewModel @Inject constructor(
     }
 
     private fun observeCatImagePager(catBreedId: String) {
-        val catImagePagingFlow: Flow<PagingData<CatImage>> =
-            catRepo.observeCatImagePager(catBreedId).cachedIn(viewModelScope)
+        val catImagePagingFlow: Flow<PagingData<CatBreedImage>> =
+            catRepo.observeCatBreedImagePager(catBreedId).cachedIn(viewModelScope)
 
         updateUiState { it.copy(images = catImagePagingFlow) }
     }

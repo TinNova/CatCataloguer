@@ -5,15 +5,15 @@ import com.tinnovakovic.catcataloguer.data.db.CatDatabase
 import javax.inject.Inject
 
 interface CatRemoteMediatorFactory {
-    fun create(order: BreedSortOrder): CatRemoteMediator
+    fun create(order: BreedSortOrder): CatBreedRemoteMediator
 }
 
 class CatRemoteMediatorFactoryImpl @Inject constructor(
     private val catDatabase: CatDatabase,
     private val catApi: TheCatApi
 ) : CatRemoteMediatorFactory {
-    override fun create(order: BreedSortOrder): CatRemoteMediator {
-        return CatRemoteMediator(catDatabase, catApi)
+    override fun create(order: BreedSortOrder): CatBreedRemoteMediator {
+        return CatBreedRemoteMediator(catDatabase, catApi)
     }
 }
 

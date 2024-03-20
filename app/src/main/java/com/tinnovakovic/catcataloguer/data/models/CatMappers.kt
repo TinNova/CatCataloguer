@@ -1,18 +1,18 @@
 package com.tinnovakovic.catcataloguer.data.models
 
 import com.tinnovakovic.catcataloguer.data.models.api.CatBreedDto
-import com.tinnovakovic.catcataloguer.data.models.api.CatImageDto
-import com.tinnovakovic.catcataloguer.data.models.db.CatEntity
-import com.tinnovakovic.catcataloguer.data.models.db.CatImageEntity
-import com.tinnovakovic.catcataloguer.data.models.local.Cat
+import com.tinnovakovic.catcataloguer.data.models.api.CatBreedImageDto
+import com.tinnovakovic.catcataloguer.data.models.db.CatBreedEntity
+import com.tinnovakovic.catcataloguer.data.models.db.CatBreedImageEntity
+import com.tinnovakovic.catcataloguer.data.models.local.CatBreed
 import com.tinnovakovic.catcataloguer.data.models.local.CatDetail
-import com.tinnovakovic.catcataloguer.data.models.local.CatImage
+import com.tinnovakovic.catcataloguer.data.models.local.CatBreedImage
 import com.tinnovakovic.catcataloguer.data.models.local.Feature
 import com.tinnovakovic.catcataloguer.data.models.local.PersonalityScore
 import java.util.Locale
 
-fun CatBreedDto.toCatEntity(): CatEntity {
-    return CatEntity(
+fun CatBreedDto.toCatEntity(): CatBreedEntity {
+    return CatBreedEntity(
         id = id,
         name = name,
         altNames = altNames ?: "",
@@ -48,7 +48,7 @@ fun CatBreedDto.toCatEntity(): CatEntity {
     )
 }
 
-fun CatEntity.toCatDetail(): CatDetail {
+fun CatBreedEntity.toCatDetail(): CatDetail {
     return CatDetail(
         id = id,
         name = name,
@@ -88,8 +88,8 @@ fun CatEntity.toCatDetail(): CatDetail {
     )
 }
 
-fun CatEntity.toCat(): Cat {
-    return Cat(
+fun CatBreedEntity.toCat(): CatBreed {
+    return CatBreed(
         id = id,
         name = name,
         origin = origin,
@@ -97,8 +97,8 @@ fun CatEntity.toCat(): Cat {
     )
 }
 
-fun CatImageDto.toCatImageEntity(catId: String): CatImageEntity {
-    return CatImageEntity(
+fun CatBreedImageDto.toCatImageEntity(catId: String): CatBreedImageEntity {
+    return CatBreedImageEntity(
         imageId = id,
         url = url,
         catId = catId,
@@ -107,8 +107,8 @@ fun CatImageDto.toCatImageEntity(catId: String): CatImageEntity {
     )
 }
 
-fun CatImageEntity.toCatImage(): CatImage {
-    return CatImage(
+fun CatBreedImageEntity.toCatImage(): CatBreedImage {
+    return CatBreedImage(
         id = imageId,
         url = url,
         width = width.toFloat(),

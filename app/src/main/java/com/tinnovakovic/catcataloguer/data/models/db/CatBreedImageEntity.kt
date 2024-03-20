@@ -6,10 +6,10 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "cat_image_table",
+    tableName = "cat_breed_image_table",
     foreignKeys = [
         ForeignKey(
-            entity = CatEntity::class,
+            entity = CatBreedEntity::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("catId"),
             onDelete = ForeignKey.CASCADE // when parent is deleted this child is deleted
@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index(value = ["catId"])]
 )
-data class CatImageEntity(
+data class CatBreedImageEntity(
     @PrimaryKey val imageId: String,
     val url: String,
     val catId: String, // This is a foreign key that references the Cat's ID

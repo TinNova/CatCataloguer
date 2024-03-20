@@ -38,7 +38,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
-import com.tinnovakovic.catcataloguer.data.models.local.Cat
+import com.tinnovakovic.catcataloguer.data.models.local.CatBreed
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
 
 @Composable
@@ -154,7 +154,7 @@ fun SubTitle(
 
 @Composable
 fun CatItem(
-    cat: Cat,
+    catBreed: CatBreed,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -166,13 +166,13 @@ fun CatItem(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = cat.name,
+                text = catBreed.name,
                 fontWeight = FontWeight.W600,
             )
-            Text(text = cat.countryEmoji)
+            Text(text = catBreed.countryEmoji)
         }
         Text(
-            text = cat.origin,
+            text = catBreed.origin,
         )
     }
 }

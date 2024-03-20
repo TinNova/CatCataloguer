@@ -9,25 +9,25 @@ import androidx.room.RawQuery
 import androidx.room.Transaction
 import androidx.room.Upsert
 import androidx.sqlite.db.SupportSQLiteQuery
-import com.tinnovakovic.catcataloguer.data.models.db.CatEntity
-import com.tinnovakovic.catcataloguer.data.models.db.CatImageEntity
+import com.tinnovakovic.catcataloguer.data.models.db.CatBreedEntity
+import com.tinnovakovic.catcataloguer.data.models.db.CatBreedImageEntity
 
 @Dao
 interface CatDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertCatImages(catImageEntities: List<CatImageEntity>)
+    suspend fun insertCatBreedImages(catImageEntities: List<CatBreedImageEntity>)
 
     @Upsert
-    suspend fun upsertAll(catEntities: List<CatEntity>)
+    suspend fun upsertAll(catEntities: List<CatBreedEntity>)
 
-    @RawQuery(observedEntities = [CatEntity::class])
-    fun catPagingSource(query: SupportSQLiteQuery): PagingSource<Int, CatEntity>
+    @RawQuery(observedEntities = [CatBreedEntity::class])
+    fun catBreedPagingSource(query: SupportSQLiteQuery): PagingSource<Int, CatBreedEntity>
 
     @Transaction
-    @Query("SELECT * FROM cat_image_table WHERE catId = :catId")
-    fun getCatImagesPagingSourceByBreedId(catId: String): PagingSource<Int, CatImageEntity>
+    @Query("SELECT * FROM cat_breed_image_table WHERE catId = :catId")
+    fun getCatBreedImagesPagingSourceByBreedId(catId: String): PagingSource<Int, CatBreedImageEntity>
 
-    @Query("SELECT * FROM cat_table WHERE id = :catId")
-    suspend fun getCatEntity(catId: String): CatEntity
+    @Query("SELECT * FROM cat_breed_table WHERE id = :catId")
+    suspend fun getCatBreedEntity(catId: String): CatBreedEntity
 }

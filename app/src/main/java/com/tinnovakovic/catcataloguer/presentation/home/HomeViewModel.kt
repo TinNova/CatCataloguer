@@ -9,7 +9,7 @@ import com.tinnovakovic.catcataloguer.data.UserPreferencesRepo
 import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder
 import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder.Name
 import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder.Origin
-import com.tinnovakovic.catcataloguer.data.models.local.Cat
+import com.tinnovakovic.catcataloguer.data.models.local.CatBreed
 import com.tinnovakovic.catcataloguer.shared.ErrorToUser
 import com.tinnovakovic.catcataloguer.shared.ExceptionHandler
 import com.tinnovakovic.catcataloguer.shared.NavDirection
@@ -79,9 +79,9 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun observeCatPager(sortOrder: BreedSortOrder) {
-        val catPagingFlow: Flow<PagingData<Cat>> =
+        val catBreedPagingFlow: Flow<PagingData<CatBreed>> =
             catRepo
-                .observeCatPager(sortOrder = sortOrder)
+                .observeCatBreedPager(sortOrder = sortOrder)
                 .cachedIn(viewModelScope)
 
         val sortOrderForFilter = when (sortOrder) {
@@ -89,7 +89,7 @@ class HomeViewModel @Inject constructor(
             is Name -> Origin
         }
 
-        updateUiState { it.copy(cats = catPagingFlow, sortOrder = sortOrderForFilter) }
+        updateUiState { it.copy(cats = catBreedPagingFlow, sortOrder = sortOrderForFilter) }
     }
 
     companion object {

@@ -1,7 +1,7 @@
 package com.tinnovakovic.catcataloguer.presentation.detail.images
 
 import androidx.paging.PagingData
-import com.tinnovakovic.catcataloguer.data.models.local.CatImage
+import com.tinnovakovic.catcataloguer.data.models.local.CatBreedImage
 import com.tinnovakovic.catcataloguer.shared.mvi.BaseUiEvent
 import com.tinnovakovic.catcataloguer.shared.mvi.BaseUiState
 import com.tinnovakovic.catcataloguer.shared.mvi.BaseViewModel
@@ -14,7 +14,7 @@ interface DetailImagesContract {
 
     @Immutable
     data class UiState(
-        val images: Flow<PagingData<CatImage>>,
+        val images: Flow<PagingData<CatBreedImage>>,
         val displayError: String?,
         val errorShown: Boolean,
     ) : BaseUiState {}

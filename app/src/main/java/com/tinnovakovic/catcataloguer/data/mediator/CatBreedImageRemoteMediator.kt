@@ -8,19 +8,19 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.tinnovakovic.catcataloguer.data.TheCatApi
 import com.tinnovakovic.catcataloguer.data.db.CatDatabase
-import com.tinnovakovic.catcataloguer.data.models.api.CatImageDto
-import com.tinnovakovic.catcataloguer.data.models.db.CatImageEntity
+import com.tinnovakovic.catcataloguer.data.models.api.CatBreedImageDto
+import com.tinnovakovic.catcataloguer.data.models.db.CatBreedImageEntity
 import com.tinnovakovic.catcataloguer.data.models.toCatImageEntity
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class CatImageRemoteMediator @Inject constructor(
+class CatBreedImageRemoteMediator @Inject constructor(
     private val catDatabase: CatDatabase,
     private val catApi: TheCatApi,
     private val catId: String,
-) : RemoteMediator<Int, CatImageEntity>() {
+) : RemoteMediator<Int, CatBreedImageEntity>() {
 
     private var page = 0
 
@@ -30,7 +30,7 @@ class CatImageRemoteMediator @Inject constructor(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, CatImageEntity>
+        state: PagingState<Int, CatBreedImageEntity>
     ): MediatorResult {
         return try {
             val loadKey: Int = when (loadType) {
@@ -57,7 +57,7 @@ class CatImageRemoteMediator @Inject constructor(
             }
 
             Log.d(javaClass.name, "TINTIN IMAGE, loadKey: $loadKey")
-            val catImages: List<CatImageDto> = catApi.getCatImageDtos(
+            val catImages: List<CatBreedImageDto> = catApi.getCatImageDtos(
                 breedId = catId,
                 page = loadKey
             )
@@ -66,7 +66,7 @@ class CatImageRemoteMediator @Inject constructor(
                 val catImageEntities = catImages.map { catImageDto ->
                     catImageDto.toCatImageEntity(catId)
                 }
-                catDatabase.catDao().insertCatImages(catImageEntities)
+                catDatabase.catDao().insertCatBreedImages(catImageEntities)
             }
 
             MediatorResult.Success(

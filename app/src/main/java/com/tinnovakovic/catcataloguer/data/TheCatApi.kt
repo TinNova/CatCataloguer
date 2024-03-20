@@ -2,7 +2,7 @@ package com.tinnovakovic.catcataloguer.data
 
 import com.tinnovakovic.catcataloguer.BuildConfig
 import com.tinnovakovic.catcataloguer.data.models.api.CatBreedDto
-import com.tinnovakovic.catcataloguer.data.models.api.CatImageDto
+import com.tinnovakovic.catcataloguer.data.models.api.CatBreedImageDto
 import com.tinnovakovic.catcataloguer.shared.IMAGE_PAGE_SIZE
 import com.tinnovakovic.catcataloguer.shared.PAGE_SIZE
 import retrofit2.http.GET
@@ -22,7 +22,7 @@ interface TheCatApi {
         @Query("DESC") order: String = ORDER_FILTER,
         @Query("page") page: Int,
         @Query("breed_ids") breedId: String,
-    ): List<CatImageDto> //Do we want to return Result?
+    ): List<CatBreedImageDto> //Do we want to return Result?
 
 }
 

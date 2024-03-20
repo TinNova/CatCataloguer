@@ -9,17 +9,17 @@ import androidx.room.withTransaction
 import com.tinnovakovic.catcataloguer.data.TheCatApi
 import com.tinnovakovic.catcataloguer.data.db.CatDatabase
 import com.tinnovakovic.catcataloguer.data.models.api.CatBreedDto
-import com.tinnovakovic.catcataloguer.data.models.db.CatEntity
+import com.tinnovakovic.catcataloguer.data.models.db.CatBreedEntity
 import com.tinnovakovic.catcataloguer.data.models.toCatEntity
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class CatRemoteMediator @Inject constructor(
+class CatBreedRemoteMediator @Inject constructor(
     private val catDatabase: CatDatabase,
     private val catApi: TheCatApi
-) : RemoteMediator<Int, CatEntity>() {
+) : RemoteMediator<Int, CatBreedEntity>() {
 
     private var page = 0
 
@@ -29,7 +29,7 @@ class CatRemoteMediator @Inject constructor(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, CatEntity>
+        state: PagingState<Int, CatBreedEntity>
     ): MediatorResult {
         return try {
             val loadKey: Int = when (loadType) {

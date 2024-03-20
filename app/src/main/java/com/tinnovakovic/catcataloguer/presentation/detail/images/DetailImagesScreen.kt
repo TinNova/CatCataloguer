@@ -35,7 +35,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
 import com.tinnovakovic.catcataloguer.R
-import com.tinnovakovic.catcataloguer.data.models.local.CatImage
+import com.tinnovakovic.catcataloguer.data.models.local.CatBreedImage
 import com.tinnovakovic.catcataloguer.presentation.ToastErrorMessage
 import com.tinnovakovic.catcataloguer.presentation.detail.images.DetailImagesContract.*
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
@@ -69,7 +69,7 @@ fun DetailImagesContent(
         }
     }
 
-    val catImagePagingItems: LazyPagingItems<CatImage> =
+    val catImagePagingItems: LazyPagingItems<CatBreedImage> =
         uiState.images.collectAsLazyPagingItems()
 
     val isLoading = remember { mutableStateOf(false) }

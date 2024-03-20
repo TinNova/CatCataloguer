@@ -10,11 +10,11 @@ import com.tinnovakovic.catcataloguer.data.db.CatDao
 import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder
 import com.tinnovakovic.catcataloguer.data.mediator.CatImageRemoteMediatorFactory
 import com.tinnovakovic.catcataloguer.data.mediator.CatRemoteMediatorFactory
-import com.tinnovakovic.catcataloguer.data.models.db.CatEntity
-import com.tinnovakovic.catcataloguer.data.models.db.CatImageEntity
-import com.tinnovakovic.catcataloguer.data.models.local.Cat
+import com.tinnovakovic.catcataloguer.data.models.db.CatBreedEntity
+import com.tinnovakovic.catcataloguer.data.models.db.CatBreedImageEntity
+import com.tinnovakovic.catcataloguer.data.models.local.CatBreed
 import com.tinnovakovic.catcataloguer.data.models.local.CatDetail
-import com.tinnovakovic.catcataloguer.data.models.local.CatImage
+import com.tinnovakovic.catcataloguer.data.models.local.CatBreedImage
 import com.tinnovakovic.catcataloguer.data.models.toCat
 import com.tinnovakovic.catcataloguer.data.models.toCatDetail
 import com.tinnovakovic.catcataloguer.data.models.toCatImage
@@ -31,27 +31,27 @@ class CatRepo @Inject constructor(
     private val catDao: CatDao
 ) {
 
-    suspend fun getCatDetail(catId: String): CatDetail {
-        return catDao.getCatEntity(catId).toCatDetail()
+    suspend fun getCatBreedDetail(catId: String): CatDetail {
+        return catDao.getCatBreedEntity(catId).toCatDetail()
     }
 
-    fun observeCatPager(sortOrder: BreedSortOrder): Flow<PagingData<Cat>> {
-        return createCatPager(sortOrder)
+    fun observeCatBreedPager(sortOrder: BreedSortOrder): Flow<PagingData<CatBreed>> {
+        return createCatBreedPager(sortOrder)
             .flow
-            .map { pagingData: PagingData<CatEntity> ->
+            .map { pagingData: PagingData<CatBreedEntity> ->
                 pagingData.map { it.toCat() }
             }
     }
 
-    fun observeCatImagePager(catId: String): Flow<PagingData<CatImage>> {
-        return createCatImagePager(catId)
+    fun observeCatBreedImagePager(catId: String): Flow<PagingData<CatBreedImage>> {
+        return createCatBreedImagePager(catId)
             .flow
-            .map { pagingData: PagingData<CatImageEntity> ->
+            .map { pagingData: PagingData<CatBreedImageEntity> ->
                 pagingData.map { it.toCatImage() }
             }
     }
 
-    private fun createCatPager(sortOrder: BreedSortOrder): Pager<Int, CatEntity> {
+    private fun createCatBreedPager(sortOrder: BreedSortOrder): Pager<Int, CatBreedEntity> {
         val queryString = when (sortOrder) {
             is BreedSortOrder.Name -> SQL_CAT_TABLE_NAME_QUERY
             is BreedSortOrder.Origin -> SQL_CAT_TABLE_ORIGIN_QUERY
@@ -61,21 +61,21 @@ class CatRepo @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             remoteMediator = catMediatorFactory.create(sortOrder),
-            pagingSourceFactory = { catDao.catPagingSource(sqlLiteQuery) }
+            pagingSourceFactory = { catDao.catBreedPagingSource(sqlLiteQuery) }
         )
     }
 
-    private fun createCatImagePager(catId: String): Pager<Int, CatImageEntity> {
+    private fun createCatBreedImagePager(catId: String): Pager<Int, CatBreedImageEntity> {
         return Pager(
             config = PagingConfig(pageSize = IMAGE_PAGE_SIZE),
             remoteMediator = catImageMediatorFactory.create(catId),
-            pagingSourceFactory = { catDao.getCatImagesPagingSourceByBreedId(catId) }
+            pagingSourceFactory = { catDao.getCatBreedImagesPagingSourceByBreedId(catId) }
         )
     }
 
     companion object {
-       private const val SQL_CAT_TABLE_NAME_QUERY = "SELECT * FROM cat_table ORDER BY name ASC"
-       private const val SQL_CAT_TABLE_ORIGIN_QUERY = "SELECT * FROM cat_table ORDER BY origin ASC"
+       private const val SQL_CAT_TABLE_NAME_QUERY = "SELECT * FROM cat_breed_table ORDER BY name ASC"
+       private const val SQL_CAT_TABLE_ORIGIN_QUERY = "SELECT * FROM cat_breed_table ORDER BY origin ASC"
 
     }
 }

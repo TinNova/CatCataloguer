@@ -3,8 +3,8 @@ package com.tinnovakovic.catcataloguer.data.models.db
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "cat_table")
-data class CatEntity(
+@Entity(tableName = "cat_breed_table")
+data class CatBreedEntity(
     @PrimaryKey
     val id: String,
     val name: String,

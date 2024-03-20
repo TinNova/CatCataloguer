@@ -38,7 +38,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.tinnovakovic.catcataloguer.data.models.local.Cat
+import com.tinnovakovic.catcataloguer.data.models.local.CatBreed
 import com.tinnovakovic.catcataloguer.presentation.home.HomeContract.UiEvents
 import com.tinnovakovic.catcataloguer.presentation.home.HomeContract.UiState
 import androidx.paging.compose.items
@@ -116,13 +116,13 @@ fun HomeScreenContent(
         }
     ) { scaffoldPadding ->
 
-        val catLazyPagingItems: LazyPagingItems<Cat> =
+        val catBreedLazyPagingItems: LazyPagingItems<CatBreed> =
             uiState.cats.collectAsLazyPagingItems()
 
         val isLoading = remember { mutableStateOf(false) }
         val pullRefreshState: PullRefreshState = rememberPullRefreshState(
             refreshing = isLoading.value,
-            onRefresh = { catLazyPagingItems.refresh() }
+            onRefresh = { catBreedLazyPagingItems.refresh() }
         )
 
         Box(
@@ -135,17 +135,17 @@ fun HomeScreenContent(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (catLazyPagingItems.loadState.refresh is LoadState.Loading) {
+                if (catBreedLazyPagingItems.loadState.refresh is LoadState.Loading) {
                     isLoading.value = true
                 } else {
                     isLoading.value = false
                     items(
-                        catLazyPagingItems,
+                        catBreedLazyPagingItems,
                         key = { it.id }
                     ) { cat ->
                         if (cat != null) {
                             CatItem(
-                                cat = cat,
+                                catBreed = cat,
                                 modifier = Modifier
                                     .clickable {
                                         uiAction(UiEvents.CatBreedClicked(cat.id, cat.name))
@@ -161,16 +161,16 @@ fun HomeScreenContent(
                             HorizontalDivider(modifier = Modifier.padding(start = MaterialTheme.spacing.large))
                         }
 
-                        if (catLazyPagingItems.loadState.refresh is LoadState.Error) {
+                        if (catBreedLazyPagingItems.loadState.refresh is LoadState.Error) {
                             LaunchedEffect(true) {
-                                uiAction(UiEvents.PagingError((catLazyPagingItems.loadState.refresh as LoadState.Error).error))
+                                uiAction(UiEvents.PagingError((catBreedLazyPagingItems.loadState.refresh as LoadState.Error).error))
                             }
                             isLoading.value = false
                         }
                     }
 
                     item {
-                        when (catLazyPagingItems.loadState.append) {
+                        when (catBreedLazyPagingItems.loadState.append) {
                             is LoadState.Loading -> {
                                 isLoading.value = true
                                 CircularProgressIndicator(
@@ -180,7 +180,7 @@ fun HomeScreenContent(
 
                             is LoadState.Error -> LaunchedEffect(true) {
                                 isLoading.value = false
-                                uiAction(UiEvents.PagingError((catLazyPagingItems.loadState.append as LoadState.Error).error))
+                                uiAction(UiEvents.PagingError((catBreedLazyPagingItems.loadState.append as LoadState.Error).error))
                             }
 
                             is LoadState.NotLoading -> {

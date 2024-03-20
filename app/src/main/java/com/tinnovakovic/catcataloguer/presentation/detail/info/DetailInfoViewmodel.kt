@@ -41,7 +41,7 @@ class DetailInfoViewModel @Inject constructor(
 
     private fun getCatDetail(catBreedId: String) {
         viewModelScope.launch {
-            val catDetail = catRepo.getCatDetail(catBreedId)
+            val catDetail = catRepo.getCatBreedDetail(catBreedId)
             updateUiState { it.copy(catDetail = catDetail) }
         }
     }
