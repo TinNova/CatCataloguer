@@ -1,6 +1,5 @@
 package com.tinnovakovic.catcataloguer.data.mediator
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -35,28 +34,23 @@ class CatBreedImageRemoteMediator @Inject constructor(
         return try {
             val loadKey: Int = when (loadType) {
                 LoadType.REFRESH -> {
-                    Log.d(javaClass.name, "TINTIN IMAGE, LoadType is REFRESH")
                     0
                 }
 
                 LoadType.PREPEND -> {
-                    Log.d(javaClass.name, "TINTIN IMAGE, LoadType is PREPEND")
                     return MediatorResult.Success(endOfPaginationReached = true)
                 }
 
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
                     if (lastItem == null) {
-                        Log.d(javaClass.name, "TINTIN IMAGE, LoadType is APPEND Last Item Null: $page")
                         page++ // No items, so fetch the first list
                     } else {
-                        Log.d(javaClass.name, "TINTIN IMAGE, LoadType is APPEND Tin Page: $page")
                         page++ //the next page to fetch, figure out this logic...
                     }
                 }
             }
 
-            Log.d(javaClass.name, "TINTIN IMAGE, loadKey: $loadKey")
             val catImages: List<CatBreedImageDto> = catApi.getCatImageDtos(
                 breedId = catId,
                 page = loadKey

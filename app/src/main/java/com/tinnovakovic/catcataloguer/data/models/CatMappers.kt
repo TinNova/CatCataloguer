@@ -71,7 +71,8 @@ fun CatBreedEntity.toCatDetail(): CatDetail {
             PersonalityScore(::intelligence.name.capitalise().separatePascalCase(), intelligence),
             PersonalityScore(::sheddingLevel.name.capitalise().separatePascalCase(), sheddingLevel),
             PersonalityScore(::socialNeeds.name.capitalise().separatePascalCase(), socialNeeds),
-            PersonalityScore(::strangerFriendly.name.capitalise().separatePascalCase(), strangerFriendly)
+            PersonalityScore(::strangerFriendly.name.capitalise().separatePascalCase(), strangerFriendly),
+            PersonalityScore(::vocalisation.name.capitalise().separatePascalCase(), vocalisation)
         ),
         features = listOf(
             Feature(::indoor.name.capitalise().separatePascalCase(), indoor == 1),

@@ -34,27 +34,22 @@ class CatBreedRemoteMediator @Inject constructor(
         return try {
             val loadKey: Int = when (loadType) {
                 LoadType.REFRESH -> {
-                    Log.d(javaClass.name, "TINTIN CAT, LoadType is REFRESH")
                     0
                 }
                 LoadType.PREPEND -> {
-                    Log.d(javaClass.name, "TINTIN CAT, LoadType is PREPEND")
                     return MediatorResult.Success(endOfPaginationReached = true)
                 }
 
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
                     if (lastItem == null) {
-                        Log.d(javaClass.name, "TINTIN CAT, LoadType is APPEND Last Item Null: $page")
                         page++ // No items, so fetch the first list
                     } else {
-                        Log.d(javaClass.name, "TINTIN CAT, LoadType is APPEND Tin Page: $page")
                         page++ //the next page to fetch, figure out this logic...
                     }
                 }
             }
 
-            Log.d(javaClass.name, "TINTIN CAT, loadKey: $loadKey")
             val cats: List<CatBreedDto> = catApi.getCatBreedDtos(
                 page = loadKey
             )
