@@ -2,6 +2,7 @@ package com.tinnovakovic.catcataloguer.presentation.detail.info
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -65,8 +66,23 @@ fun DetailScreenContent(
                     SubTitle(text = "Other Names")
                     Text(text = catDetail.altNames)
                 }
-                SubTitle(text = "Origin")
-                Text(text = catDetail.origin)
+
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraLarge),
+                ) {
+                    Column {
+                        SubTitle(text = "Origin")
+                        Text(text = catDetail.origin)
+                    }
+                    Column {
+                        SubTitle(text = "Life Span")
+                        Text(text = "${catDetail.lifeSpan} years")
+                    }
+                    Column {
+                        SubTitle(text = "Weight")
+                        Text(text = "${catDetail.weightMetric}kg | ${catDetail.weightImperial}lbs")
+                    }
+                }
 
                 if (catDetail.temperament.isNotEmpty()) {
                     SubTitle(text = "Temperament")
