@@ -18,6 +18,7 @@ import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tinnovakovic.catcataloguer.R
+import com.tinnovakovic.catcataloguer.presentation.CatMediumTopAppBar
 import com.tinnovakovic.catcataloguer.presentation.detail.DetailContract.*
 import com.tinnovakovic.catcataloguer.presentation.detail.images.DetailImagesScreen
 import com.tinnovakovic.catcataloguer.presentation.detail.info.DetailInfoScreen
@@ -63,11 +65,8 @@ fun DetailScreenContent(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         contentWindowInsets = WindowInsets(0.dp),
         topBar = {
-            MediumTopAppBar(
-                windowInsets = WindowInsets(0.dp),
-                title = {
-                    Text(text = uiState.catBreedName ?: "",
-                        style = MaterialTheme.typography.headlineMedium)},
+            CatMediumTopAppBar(
+                title = uiState.catBreedName ?: "",
                 navigationIcon = {
                     IconButton(onClick = { uiAction(UiEvents.UpButtonClicked) }
                     ) {
@@ -75,8 +74,7 @@ fun DetailScreenContent(
                     }
                 },
                 scrollBehavior = scrollBehavior
-
-                )
+            )
         }
     ) { scaffoldPadding ->
         Column(
@@ -127,6 +125,7 @@ private fun DetailHorizontalPager() {
             Page.Info -> {
                 DetailInfoScreen()
             }
+
             Page.Images -> {
                 DetailImagesScreen()
             }
