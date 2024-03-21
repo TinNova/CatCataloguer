@@ -56,8 +56,8 @@ android {
 
         buildConfigField(
             "String",
-            "THE_CAT_API_API_KEY",
-            "\"${properties.getProperty("THE_CAT_API_API_KEY")}\""
+            "THE_CAT_API_KEY",
+            "\"${properties.getProperty("THE_CAT_API_KEY")}\""
         )
     }
 

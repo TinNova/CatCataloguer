@@ -10,13 +10,13 @@ import retrofit2.http.Query
 
 interface TheCatApi {
 
-    @GET("breeds?api_key=${BuildConfig.THE_CAT_API_API_KEY}")
+    @GET("breeds?api_key=${BuildConfig.THE_CAT_API_KEY}")
     suspend fun getCatBreedDtos(
         @Query("limit") limit: Int = PAGE_SIZE,
         @Query("page") page: Int,
     ): List<CatBreedDto> //Do we want to return Result?
 
-    @GET("images/search?api_key=${BuildConfig.THE_CAT_API_API_KEY}")
+    @GET("images/search?api_key=${BuildConfig.THE_CAT_API_KEY}")
     suspend fun getCatImageDtos(
         @Query("limit") limit: Int = IMAGE_PAGE_SIZE,
         @Query("DESC") order: String = ORDER_FILTER,
