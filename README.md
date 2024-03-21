@@ -72,5 +72,5 @@ To ensure the app is accessibile to all users I've put focus on ensuring the app
 You need to get your own APIKEY from here https://thecatapi.com/ and insert it into your local.properties file:
 
 ```
-THE_CAT_API_API_KEY = {API_KEY}
+THE_CAT_API_KEY = {API_KEY}
 ```
