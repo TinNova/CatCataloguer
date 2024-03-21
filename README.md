@@ -48,6 +48,9 @@ The app uses Clean Architecture.
 ### Pagination
 To solve pagination the Paging 3 library was used, this handling paginating the API data and paginating the persisted data as well, this ensures that the application only fetches a manageble amount of data at once and that data is still available when offline.
 
+### DataStore
+DataStore is used to saved the users prefered sort_order for the main screen, they can choose between sorting by the cat breed name and the origin.
+
 ### Accessibility
 To ensure the app is accessibile to all users I've put focus on ensuring the app looks and functions well when the font and the screen zoom is at the largest system settings, I encourage you to try it.
 
