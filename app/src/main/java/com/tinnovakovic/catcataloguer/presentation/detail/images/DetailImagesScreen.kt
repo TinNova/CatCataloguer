@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
@@ -159,7 +160,7 @@ fun CatImage(
             .crossfade(true)
             .build(),
         contentScale = ContentScale.FillWidth,
-        contentDescription = "Cat",
+        contentDescription = stringResource(id = R.string.content_desc_cat_image),
         filterQuality = FilterQuality.None
     )
 }

@@ -53,7 +53,7 @@ class CatRepo @Inject constructor(
 
     private fun createCatBreedPager(sortOrder: BreedSortOrder): Pager<Int, CatBreedEntity> {
         val queryString = when (sortOrder) {
-            is BreedSortOrder.Name -> SQL_CAT_TABLE_NAME_QUERY
+            is BreedSortOrder.Breed -> SQL_CAT_TABLE_NAME_QUERY
             is BreedSortOrder.Origin -> SQL_CAT_TABLE_ORIGIN_QUERY
         }
         val sqlLiteQuery = SimpleSQLiteQuery(queryString)

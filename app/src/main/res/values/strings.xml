@@ -8,4 +8,27 @@
     <string name="http_error_message">Error Loading Information.</string>
     <string name="generic_error_message">An Error Occurred.</string>
 
+    <string name="sort_order">Sort By: %1$s</string>
+    <string name="up_button">Back</string>
+
+    <string name="description_title">Description</string>
+    <string name="other_names_title">Other Names</string>
+    <string name="origin_title">Origin</string>
+    <string name="life_span_title">Life Span</string>
+    <string name="weight_title">Weight</string>
+    <string name="temperament_title">Temperament</string>
+    <string name="personality_traits_title">Personality Traits</string>
+    <string name="features_title">Features</string>
+
+    <string name="content_desc_true">true</string>
+    <string name="content_desc_false">false</string>
+    <string name="content_desc_cat_image">Cat</string>
+
+
+    <string name="life_span_years">%1$s years</string>
+    <string name="weight_metric_imperial">%1$skg | %2$slbs</string>
+
+<!--    Text(text = "${catDetail.weightMetric}kg | ${catDetail.weightImperial}lbs")-->
+
+
 </resources>

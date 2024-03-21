@@ -70,7 +70,12 @@ fun DetailScreenContent(
                 navigationIcon = {
                     IconButton(onClick = { uiAction(UiEvents.UpButtonClicked) }
                     ) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(
+                                id = R.string.up_button
+                            )
+                        )
                     }
                 },
                 scrollBehavior = scrollBehavior

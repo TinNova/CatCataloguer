@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import com.tinnovakovic.catcataloguer.data.CatRepo
 import com.tinnovakovic.catcataloguer.data.UserPreferencesRepo
 import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder
-import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder.Name
+import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder.Breed
 import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder.Origin
 import com.tinnovakovic.catcataloguer.data.models.local.CatBreed
 import com.tinnovakovic.catcataloguer.shared.ErrorToUser
@@ -44,7 +44,7 @@ class HomeViewModel @Inject constructor(
     private fun getUserPrefBreedSortOder() {
         viewModelScope.launch {
             val breedSortOrder =
-                if (userPreferencesRepo.userPreferences().sortBreedsByName) Name else Origin
+                if (userPreferencesRepo.userPreferences().sortBreedsByName) Breed else Origin
             observeCatPager(breedSortOrder)
         }
     }
@@ -60,7 +60,7 @@ class HomeViewModel @Inject constructor(
             is HomeContract.UiEvents.FilterOptionClicked -> {
                 viewModelScope.launch {
                     when (event.sortOrder) {
-                        is Name -> userPreferencesRepo.updateBreedSortOrder(true)
+                        is Breed -> userPreferencesRepo.updateBreedSortOrder(true)
                         is Origin -> userPreferencesRepo.updateBreedSortOrder(false)
                     }
                     observeCatPager(event.sortOrder)
@@ -85,8 +85,8 @@ class HomeViewModel @Inject constructor(
                 .cachedIn(viewModelScope)
 
         val sortOrderForFilter = when (sortOrder) {
-            is Origin -> Name
-            is Name -> Origin
+            is Origin -> Breed
+            is Breed -> Origin
         }
 
         updateUiState { it.copy(cats = catBreedPagingFlow, sortOrder = sortOrderForFilter) }

@@ -52,36 +52,16 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CatCataloguerTheme {
-        Greeting("Android")
-    }
-}
-
 //TODO:
-//  MAPPERS IMPROVEMENT
-// - Can CatMappers be improved? They are extension function except for one of them...
 //  LINTING
 // - Remove all hardcoded numbers and strings
-//  UNIT TESTING
-// - Write some quick unit tests
 // - GITHUB README, take screenshots with large and small font
-
-//TODO EXTRAS:
-// - Add API to Header to avoid code duplication
-//  GRADLE
-// - Use the libs.versions.toml file to manage dependencies
-
+//   - Take screenshots with large font and text, and point out that you took that into consideration
+//   - Take regular screenshots
+//   - Take gifs of the animations (linear progress bars and bouncing description)
+//   - Mention DataStore to store the sort order preference
+//   - Paging 3 library to page the api and the database in one
+//   - InMemoryCache State class as a pattern
 
 //DONE:
 // - [FAIL, didn't solve the clipping issue] Coil sometimes clipping is not applied, could adding a Key to the lazyColumn solve this?
@@ -112,5 +92,8 @@ fun GreetingPreview() {
 // - Consider DarkMode/LightMode
 //  ACCESSIBILITY AND LARGE FONT/ZOOMED
 // - Consider Accessibility and what app looks like with enlarged fonts and zoom
-
-
+//  MAPPERS IMPROVEMENT
+// - Can CatMappers be improved? They are extension function except for one of them...
+//  UNIT TESTING
+// - Write some quick unit tests
+// - GITHUB README, take screenshots with large and small font

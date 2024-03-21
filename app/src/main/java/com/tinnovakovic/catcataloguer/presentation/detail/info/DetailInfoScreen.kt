@@ -22,8 +22,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.tinnovakovic.catcataloguer.R
 import com.tinnovakovic.catcataloguer.presentation.AnimatedLinearProgressIndicator
 import com.tinnovakovic.catcataloguer.presentation.ExpandingCard
 import com.tinnovakovic.catcataloguer.presentation.SubTitle
@@ -61,10 +63,13 @@ fun DetailScreenContent(
                 .padding(horizontal = MaterialTheme.spacing.medium)
         ) {
             item {
-                ExpandingCard(title = "Description", description = catDetail.description)
+                ExpandingCard(
+                    title = stringResource(id = R.string.description_title),
+                    description = catDetail.description
+                )
 
                 if (catDetail.altNames.isNotEmpty()) {
-                    SubTitle(text = "Other Names")
+                    SubTitle(text = stringResource(id = R.string.other_names_title))
                     Text(text = catDetail.altNames)
                 }
 
@@ -72,21 +77,32 @@ fun DetailScreenContent(
                     horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraLarge),
                 ) {
                     Column {
-                        SubTitle(text = "Origin")
+                        SubTitle(text = stringResource(id = R.string.origin_title))
                         Text(text = catDetail.origin)
                     }
                     Column {
-                        SubTitle(text = "Life Span")
-                        Text(text = "${catDetail.lifeSpan} years")
+                        SubTitle(text = stringResource(id = R.string.life_span_title))
+                        Text(
+                            text = stringResource(
+                                id = R.string.life_span_years,
+                                catDetail.lifeSpan
+                            )
+                        )
                     }
                     Column {
-                        SubTitle(text = "Weight")
-                        Text(text = "${catDetail.weightMetric}kg | ${catDetail.weightImperial}lbs")
+                        SubTitle(text = stringResource(id = R.string.weight_title))
+                        Text(
+                            text = stringResource(
+                                id = R.string.weight_metric_imperial,
+                                catDetail.weightMetric,
+                                catDetail.weightImperial
+                            )
+                        )
                     }
                 }
 
                 if (catDetail.temperament.isNotEmpty()) {
-                    SubTitle(text = "Temperament")
+                    SubTitle(text = stringResource(id = R.string.temperament_title))
                     FlowRow {
                         catDetail.temperament.forEach { temperament ->
                             SuggestionChip(
@@ -101,7 +117,7 @@ fun DetailScreenContent(
                 }
             }
 
-            item { SubTitle(text = "Personality Traits") }
+            item { SubTitle(text = stringResource(id = R.string.personality_traits_title)) }
             item {
                 catDetail.personalityScores.forEach { personalityScore ->
                     Column(
@@ -118,7 +134,7 @@ fun DetailScreenContent(
                 }
             }
 
-            item { SubTitle(text = "Features") }
+            item { SubTitle(text = stringResource(id = R.string.features_title)) }
             item {
                 FlowRow(
                     modifier = Modifier.padding(bottom = MaterialTheme.spacing.large)
@@ -133,14 +149,14 @@ fun DetailScreenContent(
                                         Image(
                                             imageVector = Icons.Outlined.Check,
                                             colorFilter = ColorFilter.tint(Color.Green),
-                                            contentDescription = "true",
+                                            contentDescription = stringResource(id = R.string.content_desc_true),
                                             modifier = Modifier.size(MaterialTheme.spacing.large)
                                         )
                                     } else {
                                         Image(
                                             imageVector = Icons.Outlined.Close,
                                             colorFilter = ColorFilter.tint(Color.Red),
-                                            contentDescription = "false",
+                                            contentDescription = stringResource(id = R.string.content_desc_false),
                                             modifier = Modifier.size(MaterialTheme.spacing.large)
                                         )
                                     }

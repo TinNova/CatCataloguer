@@ -18,6 +18,6 @@ class CatRemoteMediatorFactoryImpl @Inject constructor(
 }
 
 sealed class BreedSortOrder {
-    data object Name: BreedSortOrder()
+    data object Breed: BreedSortOrder()
     data object Origin: BreedSortOrder()
 }

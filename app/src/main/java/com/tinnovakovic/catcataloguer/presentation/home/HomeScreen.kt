@@ -32,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -42,6 +43,7 @@ import com.tinnovakovic.catcataloguer.data.models.local.CatBreed
 import com.tinnovakovic.catcataloguer.presentation.home.HomeContract.UiEvents
 import com.tinnovakovic.catcataloguer.presentation.home.HomeContract.UiState
 import androidx.paging.compose.items
+import com.tinnovakovic.catcataloguer.R
 import com.tinnovakovic.catcataloguer.presentation.CatItem
 import com.tinnovakovic.catcataloguer.presentation.ToastErrorMessage
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
@@ -103,7 +105,7 @@ fun HomeScreenContent(
                             }
                         ) {
                             DropdownMenuItem(
-                                text = { Text("Filter By: ${uiState.sortOrder}") },
+                                text = { Text(stringResource(id = R.string.sort_order, uiState.sortOrder)) },
                                 onClick = {
                                     showMenu = false
                                     uiAction(UiEvents.FilterOptionClicked(uiState.sortOrder))
