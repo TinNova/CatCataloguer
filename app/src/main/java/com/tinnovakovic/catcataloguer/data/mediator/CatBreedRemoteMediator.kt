@@ -1,12 +1,11 @@
 package com.tinnovakovic.catcataloguer.data.mediator
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.tinnovakovic.catcataloguer.data.TheCatApi
+import com.tinnovakovic.catcataloguer.data.api.TheCatApi
 import com.tinnovakovic.catcataloguer.data.db.CatDatabase
 import com.tinnovakovic.catcataloguer.data.models.api.CatBreedDto
 import com.tinnovakovic.catcataloguer.data.models.db.CatBreedEntity
@@ -41,12 +40,7 @@ class CatBreedRemoteMediator @Inject constructor(
                 }
 
                 LoadType.APPEND -> {
-                    val lastItem = state.lastItemOrNull()
-                    if (lastItem == null) {
                         page++ // No items, so fetch the first list
-                    } else {
-                        page++ //the next page to fetch, figure out this logic...
-                    }
                 }
             }
 
