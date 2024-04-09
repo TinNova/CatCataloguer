@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
@@ -158,7 +159,14 @@ fun CatItem(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier.fillMaxWidth(),
+        modifier
+            .fillMaxWidth()
+            .padding(
+            top = MaterialTheme.spacing.medium,
+            bottom = MaterialTheme.spacing.medium,
+            start = MaterialTheme.spacing.large,
+            end = MaterialTheme.spacing.medium
+        ),
         horizontalAlignment = Alignment.End
     ) {
         Row(
@@ -175,4 +183,5 @@ fun CatItem(
             text = catBreed.origin,
         )
     }
+    HorizontalDivider(modifier = Modifier.padding(start = MaterialTheme.spacing.large))
 }

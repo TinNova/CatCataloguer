@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -17,7 +18,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -105,7 +105,14 @@ fun HomeScreenContent(
                             }
                         ) {
                             DropdownMenuItem(
-                                text = { Text(stringResource(id = R.string.sort_order, uiState.sortOrder)) },
+                                text = {
+                                    Text(
+                                        stringResource(
+                                            id = R.string.sort_order,
+                                            uiState.sortOrder
+                                        )
+                                    )
+                                },
                                 onClick = {
                                     showMenu = false
                                     uiAction(UiEvents.FilterOptionClicked(uiState.sortOrder))
@@ -121,9 +128,8 @@ fun HomeScreenContent(
         val catBreedLazyPagingItems: LazyPagingItems<CatBreed> =
             uiState.cats.collectAsLazyPagingItems()
 
-        val isLoading = remember { mutableStateOf(false) }
         val pullRefreshState: PullRefreshState = rememberPullRefreshState(
-            refreshing = isLoading.value,
+            refreshing = false,
             onRefresh = { catBreedLazyPagingItems.refresh() }
         )
 
@@ -133,14 +139,18 @@ fun HomeScreenContent(
                 .fillMaxSize()
                 .pullRefresh(pullRefreshState)
         ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
+            if (catBreedLazyPagingItems.loadState.refresh is LoadState.Loading
+                || isFirstLoad(catBreedLazyPagingItems)
             ) {
-                if (catBreedLazyPagingItems.loadState.refresh is LoadState.Loading) {
-                    isLoading.value = true
-                } else {
-                    isLoading.value = false
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center)
+                )
+            } else {
+                LazyColumn(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     items(
                         catBreedLazyPagingItems,
                         key = { it.id }
@@ -152,51 +162,47 @@ fun HomeScreenContent(
                                     .clickable {
                                         uiAction(UiEvents.CatBreedClicked(cat.id, cat.name))
                                     }
-                                    .fillMaxSize()
-                                    .padding(
-                                        top = MaterialTheme.spacing.medium,
-                                        bottom = MaterialTheme.spacing.medium,
-                                        start = MaterialTheme.spacing.large,
-                                        end = MaterialTheme.spacing.medium
-                                    )
                             )
-                            HorizontalDivider(modifier = Modifier.padding(start = MaterialTheme.spacing.large))
                         }
 
                         if (catBreedLazyPagingItems.loadState.refresh is LoadState.Error) {
                             LaunchedEffect(true) {
                                 uiAction(UiEvents.PagingError((catBreedLazyPagingItems.loadState.refresh as LoadState.Error).error))
                             }
-                            isLoading.value = false
                         }
                     }
 
                     item {
                         when (catBreedLazyPagingItems.loadState.append) {
                             is LoadState.Loading -> {
-                                isLoading.value = true
-                                CircularProgressIndicator(
-                                    modifier = Modifier.align(Alignment.Center)
-                                )
+                                if (catBreedLazyPagingItems.itemCount != 0) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier
+                                            .padding(MaterialTheme.spacing.medium)
+                                            .wrapContentSize(Alignment.Center)
+                                    )
+                                }
                             }
 
                             is LoadState.Error -> LaunchedEffect(true) {
-                                isLoading.value = false
                                 uiAction(UiEvents.PagingError((catBreedLazyPagingItems.loadState.append as LoadState.Error).error))
                             }
 
-                            is LoadState.NotLoading -> {
-                                isLoading.value = false
+                            is LoadState.NotLoading -> { /*no-op*/
                             }
                         }
                     }
                 }
             }
             PullRefreshIndicator(
-                refreshing = isLoading.value,
+                refreshing = false,
                 state = pullRefreshState,
                 modifier = Modifier.align(Alignment.TopCenter),
             )
         }
     }
+}
+
+fun isFirstLoad(lazyPagingItems: LazyPagingItems<CatBreed>): Boolean {
+    return lazyPagingItems.loadState.append is LoadState.Loading && lazyPagingItems.itemCount == 0
 }
