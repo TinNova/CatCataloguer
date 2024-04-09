@@ -12,10 +12,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
@@ -33,12 +37,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import coil.size.Scale
+import com.tinnovakovic.catcataloguer.R
 import com.tinnovakovic.catcataloguer.data.models.local.CatBreed
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
 
@@ -184,4 +197,50 @@ fun CatItem(
         )
     }
     HorizontalDivider(modifier = Modifier.padding(start = MaterialTheme.spacing.large))
+}
+
+@Composable
+fun CentredCircularLoadingIndicator() {
+    CircularProgressIndicator(
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center)
+    )
+}
+
+@Composable
+fun ItemCircularLoadingIndicator() {
+    CircularProgressIndicator(
+        modifier = Modifier
+            .padding(MaterialTheme.spacing.medium)
+            .wrapContentSize(Alignment.Center)
+    )
+}
+
+@Composable
+fun CatImage(
+    image: String,
+    aspectRatio: Float,
+    modifier: Modifier = Modifier
+) {
+    AsyncImage(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.large)
+            .aspectRatio(aspectRatio),
+        model = ImageRequest
+            .Builder(LocalContext.current)
+            .data(image)
+            .scale(Scale.FIT)
+            .placeholder(R.drawable.placeholder_image)
+            .crossfade(true)
+            .build(),
+        contentScale = ContentScale.FillWidth,
+        contentDescription = stringResource(id = R.string.content_desc_cat_image),
+        filterQuality = FilterQuality.None
+    )
+}
+
+fun <T : Any> isFirstLoad(lazyPagingItems: LazyPagingItems<T>): Boolean {
+    return lazyPagingItems.loadState.append is LoadState.Loading && lazyPagingItems.itemCount == 0
 }

@@ -45,7 +45,9 @@ import com.tinnovakovic.catcataloguer.presentation.home.HomeContract.UiState
 import androidx.paging.compose.items
 import com.tinnovakovic.catcataloguer.R
 import com.tinnovakovic.catcataloguer.presentation.CatItem
+import com.tinnovakovic.catcataloguer.presentation.CentredCircularLoadingIndicator
 import com.tinnovakovic.catcataloguer.presentation.ToastErrorMessage
+import com.tinnovakovic.catcataloguer.presentation.isFirstLoad
 import com.tinnovakovic.catcataloguer.ui.theme.spacing
 
 
@@ -142,11 +144,7 @@ fun HomeScreenContent(
             if (catBreedLazyPagingItems.loadState.refresh is LoadState.Loading
                 || isFirstLoad(catBreedLazyPagingItems)
             ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize(Alignment.Center)
-                )
+                CentredCircularLoadingIndicator()
             } else {
                 LazyColumn(
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -201,8 +199,4 @@ fun HomeScreenContent(
             )
         }
     }
-}
-
-fun isFirstLoad(lazyPagingItems: LazyPagingItems<CatBreed>): Boolean {
-    return lazyPagingItems.loadState.append is LoadState.Loading && lazyPagingItems.itemCount == 0
 }
