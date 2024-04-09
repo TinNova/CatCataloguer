@@ -5,7 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room.databaseBuilder
-import com.tinnovakovic.catcataloguer.data.TheCatApi
+import com.tinnovakovic.catcataloguer.data.api.TheCatApi
 import com.tinnovakovic.catcataloguer.data.db.CatDao
 import com.tinnovakovic.catcataloguer.data.db.CatDatabase
 import com.tinnovakovic.catcataloguer.data.mediator.CatImageRemoteMediatorFactory

@@ -1,6 +1,6 @@
 package com.tinnovakovic.catcataloguer.shared
 
-enum class Destination {
+enum class NavDestination {
     Home,
     Detail
 }

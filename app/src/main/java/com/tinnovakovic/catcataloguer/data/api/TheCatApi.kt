@@ -1,4 +1,4 @@
-package com.tinnovakovic.catcataloguer.data
+package com.tinnovakovic.catcataloguer.data.api
 
 import com.tinnovakovic.catcataloguer.BuildConfig
 import com.tinnovakovic.catcataloguer.data.models.api.CatBreedDto

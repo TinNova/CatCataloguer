@@ -12,7 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.tinnovakovic.catcataloguer.presentation.detail.detailScreen
 import com.tinnovakovic.catcataloguer.presentation.home.homeScreen
-import com.tinnovakovic.catcataloguer.shared.Destination
+import com.tinnovakovic.catcataloguer.shared.NavDestination
 import com.tinnovakovic.catcataloguer.shared.NavManager
 import com.tinnovakovic.catcataloguer.ui.theme.CatCataloguerTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = Destination.Home.name,
+                        startDestination = NavDestination.Home.name,
                         Modifier.padding(innerPadding)
                     ) {
                         homeScreen()

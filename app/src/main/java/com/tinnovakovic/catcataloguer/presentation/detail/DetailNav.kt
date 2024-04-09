@@ -2,10 +2,10 @@ package com.tinnovakovic.catcataloguer.presentation.detail
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.tinnovakovic.catcataloguer.shared.Destination
+import com.tinnovakovic.catcataloguer.shared.NavDestination
 
 fun NavGraphBuilder.detailScreen() {
-    composable(route = "${Destination.Detail.name}/$CAT_BREED_ID/$CAT_BREED_NAME") {
+    composable(route = "${NavDestination.Detail.name}/$CAT_BREED_ID/$CAT_BREED_NAME") {
         DetailScreen()
     }
 }

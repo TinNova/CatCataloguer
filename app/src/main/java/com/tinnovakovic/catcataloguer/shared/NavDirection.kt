@@ -16,7 +16,7 @@ object NavDirection {
 
         override val arguments = emptyList<NamedNavArgument>()
 
-        override val destinationRoute = Destination.Home.name
+        override val destinationRoute = NavDestination.Home.name
 
     }
 
@@ -27,7 +27,7 @@ object NavDirection {
 
         override val arguments = emptyList<NamedNavArgument>()
 
-        override val destinationRoute = "${Destination.Detail.name}/$catBreedId/$catBreedName"
+        override val destinationRoute = "${NavDestination.Detail.name}/$catBreedId/$catBreedName"
     }
 
 }

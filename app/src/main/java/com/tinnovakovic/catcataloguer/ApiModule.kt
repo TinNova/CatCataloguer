@@ -1,7 +1,7 @@
 package com.tinnovakovic.catcataloguer
 
 import com.google.gson.Gson
-import com.tinnovakovic.catcataloguer.data.TheCatApi
+import com.tinnovakovic.catcataloguer.data.api.TheCatApi
 import com.tinnovakovic.catcataloguer.shared.ResultCallAdapterFactory
 import dagger.Module
 import dagger.Provides
