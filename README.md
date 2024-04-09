@@ -24,7 +24,7 @@ A catalogue of cat breeds with detailed information about each breed and photos
 |     :---:     |
 ![Alt Text](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExczZkdzEwb3l4NXB6a2I1eWhxcmV1MXRybGVqZ290NWl5OG5mN2tjbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/zC9KXUsYGZolVRGD8h/giphy.gif)
 
-## Architecture
+## Technical Information
 ### Presentation Layer
 The app is built in MVI, where each UI 'screen' has its own ViewModel, which exposes a single StateFlow containing the entire view state. Each ViewModel is responsible for subscribing to any data streams and objects required for the view, as well as exposing functions which allow the UI to send events.
 
@@ -45,6 +45,15 @@ The app uses Clean Architecture.
 - The Domain layer manages business logic using the UseCase pattern.
 - The Presentation layer uses the MVI pattern as described above.
 
+### Pagination
+To solve pagination the Paging 3 library was used, this handling paginating the API data and paginating the persisted data as well, this ensures that the application only fetches a manageble amount of data at once and that data is still available when offline.
+
+### DataStore
+DataStore is used to saved the users prefered sort_order for the main screen, they can choose between sorting by the cat breed name and the origin.
+
+### Accessibility
+To ensure the app is accessibile to all users I've put focus on ensuring the app looks and functions well when the font and the screen zoom is at the largest system settings, I encourage you to try it.
+
 ## Tech-Stack
 
 * Kotlin
@@ -58,3 +67,10 @@ The app uses Clean Architecture.
 * Testing
   * JUnit5
   * Mockk
+
+## To Run The App
+You need to get your own APIKEY from here https://thecatapi.com/ and insert it into your local.properties file:
+
+```
+THE_CAT_API_KEY = {API_KEY}
+```
