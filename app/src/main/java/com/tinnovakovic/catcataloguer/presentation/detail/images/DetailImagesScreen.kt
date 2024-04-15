@@ -53,13 +53,6 @@ fun DetailImagesContent(
         uiAction(UiEvents.Initialise)
     }
 
-    if (uiState.displayError != null) {
-        ToastErrorMessage(uiState.displayError)
-        LaunchedEffect(true) {
-            uiAction(UiEvents.ClearErrorMessage)
-        }
-    }
-
     val catImagePagingItems: LazyPagingItems<CatBreedImage> =
         uiState.images.collectAsLazyPagingItems()
 
@@ -98,8 +91,8 @@ fun DetailImagesContent(
                     }
 
                     if (catImagePagingItems.loadState.refresh is LoadState.Error) {
-                        if (!uiState.errorShown) {
-                            uiAction(UiEvents.PagingError((catImagePagingItems.loadState.append as LoadState.Error).error))
+                        (catImagePagingItems.loadState.refresh as LoadState.Error).error.message?.let {
+                            ToastErrorMessage(it)
                         }
                     }
                 }
@@ -111,8 +104,8 @@ fun DetailImagesContent(
                         }
 
                         is LoadState.Error -> {
-                            if (!uiState.errorShown) {
-                                uiAction(UiEvents.PagingError((catImagePagingItems.loadState.append as LoadState.Error).error))
+                            (catImagePagingItems.loadState.append as LoadState.Error).error.message?.let {
+                                ToastErrorMessage(it)
                             }
                         }
 

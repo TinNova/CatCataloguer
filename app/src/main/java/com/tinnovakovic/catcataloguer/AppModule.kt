@@ -60,9 +60,10 @@ object AppModule {
     @Provides
     fun provideCatDetailRemoteMediatorFactory(
         catDatabase: CatDatabase,
-        catApi: TheCatApi
+        catApi: TheCatApi,
+        exceptionHandler: ExceptionHandler
     ): CatImageRemoteMediatorFactory {
-        return CatImageRemoteMediatorFactoryImpl(catDatabase, catApi)
+        return CatImageRemoteMediatorFactoryImpl(catDatabase, catApi, exceptionHandler)
     }
 
     @Provides

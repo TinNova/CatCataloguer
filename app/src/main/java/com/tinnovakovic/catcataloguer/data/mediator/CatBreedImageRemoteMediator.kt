@@ -10,6 +10,7 @@ import com.tinnovakovic.catcataloguer.data.db.CatDatabase
 import com.tinnovakovic.catcataloguer.data.models.api.CatBreedImageDto
 import com.tinnovakovic.catcataloguer.data.models.db.CatBreedImageEntity
 import com.tinnovakovic.catcataloguer.data.models.toCatImageEntity
+import com.tinnovakovic.catcataloguer.shared.ExceptionHandler
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -19,6 +20,7 @@ class CatBreedImageRemoteMediator @Inject constructor(
     private val catDatabase: CatDatabase,
     private val catApi: TheCatApi,
     private val catId: String,
+    private val exceptionHandler: ExceptionHandler,
 ) : RemoteMediator<Int, CatBreedImageEntity>() {
 
     private var page = 0
@@ -42,7 +44,7 @@ class CatBreedImageRemoteMediator @Inject constructor(
                 }
 
                 LoadType.APPEND -> {
-                        page++ // No items, so fetch the first list
+                    page++ // No items, so fetch the first list
                 }
             }
 
@@ -63,9 +65,19 @@ class CatBreedImageRemoteMediator @Inject constructor(
             )
 
         } catch (e: IOException) {
-            MediatorResult.Error(e)
+            MediatorResult.Error(
+                throwable = Throwable(
+                    message = exceptionHandler.execute(e).message,
+                    cause = null
+                )
+            )
         } catch (e: HttpException) {
-            MediatorResult.Error(e)
+            MediatorResult.Error(
+                throwable = Throwable(
+                    message = exceptionHandler.execute(e).message,
+                    cause = null
+                )
+            )
         }
     }
 

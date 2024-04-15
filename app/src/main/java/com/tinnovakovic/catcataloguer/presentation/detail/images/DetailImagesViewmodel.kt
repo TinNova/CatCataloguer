@@ -19,7 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailImagesViewModel @Inject constructor(
     private val catRepo: CatRepo,
-    private val exceptionHandler: ExceptionHandler,
     private val catBreedIdInMemoryCache: CatBreedIdInMemoryCache,
 ) : ViewModel() {
 
@@ -37,22 +36,6 @@ class DetailImagesViewModel @Inject constructor(
     override fun onUiEvent(event: UiEvents) {
         when (event) {
             is UiEvents.Initialise -> initialise()
-            is UiEvents.PagingError -> {
-                if (!uiState.value.errorShown) {
-                    val error: ErrorToUser = exceptionHandler.execute(event.error)
-
-                    updateUiState {
-                        it.copy(
-                            displayError = error.message,
-                            errorShown = true
-                        )
-                    }
-                }
-            }
-
-            is UiEvents.ClearErrorMessage -> {
-                updateUiState { it.copy(displayError = null) }
-            }
         }
     }
 
@@ -65,7 +48,5 @@ class DetailImagesViewModel @Inject constructor(
 
     private fun initialUiState() = UiState(
         images = emptyFlow(),
-        displayError = null,
-        errorShown = false
     )
 }
