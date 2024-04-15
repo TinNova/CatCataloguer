@@ -74,13 +74,6 @@ fun HomeScreenContent(
         uiAction(UiEvents.Initialise)
     }
 
-    if (uiState.displayError != null) {
-        ToastErrorMessage(uiState.displayError)
-        LaunchedEffect(true) {
-            uiAction(UiEvents.ClearErrorMessage)
-        }
-    }
-
     var showMenu by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -100,20 +93,11 @@ fun HomeScreenContent(
                             imageVector = Icons.Filled.FilterList,
                             contentDescription = "Filter" // Provide a descriptive content description for accessibility
                         )
-                        DropdownMenu(
-                            expanded = showMenu,
-                            onDismissRequest = {
-                                showMenu = false
-                            }
+                        DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }
                         ) {
                             DropdownMenuItem(
                                 text = {
-                                    Text(
-                                        stringResource(
-                                            id = R.string.sort_order,
-                                            uiState.sortOrder
-                                        )
-                                    )
+                                    Text(stringResource(id = R.string.sort_order, uiState.sortOrder))
                                 },
                                 onClick = {
                                     showMenu = false
@@ -164,8 +148,8 @@ fun HomeScreenContent(
                         }
 
                         if (catBreedLazyPagingItems.loadState.refresh is LoadState.Error) {
-                            LaunchedEffect(true) {
-                                uiAction(UiEvents.PagingError((catBreedLazyPagingItems.loadState.refresh as LoadState.Error).error))
+                            (catBreedLazyPagingItems.loadState.refresh as LoadState.Error).error.message?.let {
+                                ToastErrorMessage(it)
                             }
                         }
                     }
@@ -182,12 +166,13 @@ fun HomeScreenContent(
                                 }
                             }
 
-                            is LoadState.Error -> LaunchedEffect(true) {
-                                uiAction(UiEvents.PagingError((catBreedLazyPagingItems.loadState.append as LoadState.Error).error))
+                            is LoadState.Error -> {
+                                (catBreedLazyPagingItems.loadState.append as LoadState.Error).error.message?.let {
+                                    ToastErrorMessage(it)
+                                }
                             }
 
-                            is LoadState.NotLoading -> { /*no-op*/
-                            }
+                            is LoadState.NotLoading -> { /*no-op*/ }
                         }
                     }
                 }

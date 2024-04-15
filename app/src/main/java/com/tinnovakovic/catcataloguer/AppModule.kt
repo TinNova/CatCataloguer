@@ -50,9 +50,10 @@ object AppModule {
     @Provides
     fun provideCatRemoteMediatorFactory(
         catDatabase: CatDatabase,
-        catApi: TheCatApi
+        catApi: TheCatApi,
+        exceptionHandler: ExceptionHandler
     ): CatRemoteMediatorFactory {
-        return CatRemoteMediatorFactoryImpl(catDatabase, catApi)
+        return CatRemoteMediatorFactoryImpl(catDatabase, catApi, exceptionHandler)
     }
 
     @Singleton

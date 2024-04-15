@@ -10,8 +10,6 @@ import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder
 import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder.Breed
 import com.tinnovakovic.catcataloguer.data.mediator.BreedSortOrder.Origin
 import com.tinnovakovic.catcataloguer.data.models.local.CatBreed
-import com.tinnovakovic.catcataloguer.shared.ErrorToUser
-import com.tinnovakovic.catcataloguer.shared.ExceptionHandler
 import com.tinnovakovic.catcataloguer.shared.NavDirection
 import com.tinnovakovic.catcataloguer.shared.NavManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +24,6 @@ class HomeViewModel @Inject constructor(
     private val navManager: NavManager,
     private val catRepo: CatRepo,
     private val userPreferencesRepo: UserPreferencesRepo,
-    private val exceptionHandler: ExceptionHandler,
 ) : HomeContract.ViewModel() {
 
     private var initialiseCalled = false
@@ -66,15 +63,6 @@ class HomeViewModel @Inject constructor(
                     observeCatPager(event.sortOrder)
                 }
             }
-
-            is HomeContract.UiEvents.PagingError -> {
-                val error: ErrorToUser = exceptionHandler.execute(event.error)
-                updateUiState { it.copy(displayError = error.message) }
-            }
-
-            HomeContract.UiEvents.ClearErrorMessage -> {
-                updateUiState { it.copy(displayError = null) }
-            }
         }
     }
 
@@ -96,7 +84,6 @@ class HomeViewModel @Inject constructor(
         fun initialUiState() = HomeContract.UiState(
             cats = emptyFlow(),
             sortOrder = Origin,
-            displayError = null,
         )
     }
 }
